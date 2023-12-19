@@ -1,0 +1,15 @@
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\bin\Debug\net6.0\CsharpSyntax.exe
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\bin\Debug\net6.0\CsharpSyntax.deps.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\bin\Debug\net6.0\CsharpSyntax.runtimeconfig.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\bin\Debug\net6.0\CsharpSyntax.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\bin\Debug\net6.0\CsharpSyntax.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\obj\Debug\net6.0\CsharpSyntax.csproj.AssemblyReference.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\obj\Debug\net6.0\CsharpSyntax.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\obj\Debug\net6.0\CsharpSyntax.AssemblyInfoInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\obj\Debug\net6.0\CsharpSyntax.AssemblyInfo.cs
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\obj\Debug\net6.0\CsharpSyntax.csproj.CoreCompileInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\obj\Debug\net6.0\CsharpSyntax.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\obj\Debug\net6.0\refint\CsharpSyntax.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\obj\Debug\net6.0\CsharpSyntax.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\obj\Debug\net6.0\CsharpSyntax.genruntimeconfig.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\CsharpSyntax\obj\Debug\net6.0\ref\CsharpSyntax.dll

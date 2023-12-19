@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\SHIMNALDO\\source\\repos\\CsharpProgramming\\CsharpSyntax\\01. InputOutput.csproj",
-      "projectName": "01. InputOutput",
-      "projectPath": "C:\\Users\\SHIMNALDO\\source\\repos\\CsharpProgramming\\CsharpSyntax\\01. InputOutput.csproj",
+      "projectUniqueName": "C:\\Users\\SHIMNALDO\\source\\repos\\CsharpProgramming\\02. Copy\\02. Copy.csproj",
+      "projectName": "02. Copy",
+      "projectPath": "C:\\Users\\SHIMNALDO\\source\\repos\\CsharpProgramming\\02. Copy\\02. Copy.csproj",
       "packagesPath": "C:\\Users\\SHIMNALDO\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\SHIMNALDO\\source\\repos\\CsharpProgramming\\CsharpSyntax\\obj\\",
+      "outputPath": "C:\\Users\\SHIMNALDO\\source\\repos\\CsharpProgramming\\02. Copy\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

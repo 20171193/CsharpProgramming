@@ -1,4 +1,4 @@
-# Studying-CsharpProgramming
+# C# 프로그래밍
 ## 목차  
 ### 01.입출력  
 1. System.Console 프로퍼티  

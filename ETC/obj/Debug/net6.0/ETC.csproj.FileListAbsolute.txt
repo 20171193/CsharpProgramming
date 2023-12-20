@@ -1,0 +1,15 @@
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\bin\Debug\net6.0\ETC.exe
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\bin\Debug\net6.0\ETC.deps.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\bin\Debug\net6.0\ETC.runtimeconfig.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\bin\Debug\net6.0\ETC.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\bin\Debug\net6.0\ETC.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\obj\Debug\net6.0\ETC.csproj.AssemblyReference.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\obj\Debug\net6.0\ETC.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\obj\Debug\net6.0\ETC.AssemblyInfoInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\obj\Debug\net6.0\ETC.AssemblyInfo.cs
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\obj\Debug\net6.0\ETC.csproj.CoreCompileInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\obj\Debug\net6.0\ETC.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\obj\Debug\net6.0\refint\ETC.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\obj\Debug\net6.0\ETC.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\obj\Debug\net6.0\ETC.genruntimeconfig.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\ETC\obj\Debug\net6.0\ref\ETC.dll

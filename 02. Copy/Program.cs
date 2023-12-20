@@ -1,14 +1,17 @@
 ﻿/*********************************************************************************
- 
+  <Struct와 Class>
+ * Struct : 값 형식 (스택)
+ * Class : 참조 형식 (힙)
+ * C++과 다른점
+    * C#에서는 struct의 상속과 명시적 기본생성자를 지원하지 않는다.
+    * C++에서는 기본적으로 모든 멤버가 public인데 C#에서는 따로 명시해주어야한다.
+
+
  <메모리 저장방식>
  * 값 형식
     : 변수가 값을 담는 데이터 형식 (*스택 메모리에 할당.) 
  * 참조 형식
     : 변수의 값이 아닌 값이 있는 곳의 *주소를 담는 데이터 형식 (*힙 메모리에 할당.)
-
- <Struct와 Class?>
- * Struct : 값 형식 (스택)
- * Class : 참조 형식 (힙)
 
  <깊은 복사와 얕은 복사>
  * 얕은 복사 (Shallow Copy)
@@ -44,7 +47,7 @@ namespace _02._Copy
         
         public DeepCopyClass DeepCopy()
         {
-            // 새 클래스를 생성해 참조를 별도의 힙 영역에 할당한다.
+            // 새 인스턴스를 생성해 참조를 별도의 힙 영역에 할당한다.
             DeepCopyClass tempClass = new DeepCopyClass();
             tempClass.number1 = this.number1;
             tempClass.number2 = this.number2;

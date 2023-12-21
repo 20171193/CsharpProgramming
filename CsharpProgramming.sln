@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "03. OOP", "03. OOP\03. OOP.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "01. Input and Output", "01. Input and Output\01. Input and Output.csproj", "{188F4F28-38F6-465D-AC8C-155824A54F4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETC", "ETC\ETC.csproj", "{09BAA879-2BD4-4EDE-89F4-39A42FBF9842}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETC", "ETC\ETC.csproj", "{09BAA879-2BD4-4EDE-89F4-39A42FBF9842}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04. Interface", "04. Interface\04. Interface.csproj", "{19EB9219-EB43-49A4-985D-FE58F2515A11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{09BAA879-2BD4-4EDE-89F4-39A42FBF9842}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09BAA879-2BD4-4EDE-89F4-39A42FBF9842}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09BAA879-2BD4-4EDE-89F4-39A42FBF9842}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19EB9219-EB43-49A4-985D-FE58F2515A11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19EB9219-EB43-49A4-985D-FE58F2515A11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19EB9219-EB43-49A4-985D-FE58F2515A11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19EB9219-EB43-49A4-985D-FE58F2515A11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

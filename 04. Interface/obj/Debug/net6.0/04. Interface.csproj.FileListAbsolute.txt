@@ -1,0 +1,15 @@
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\bin\Debug\net6.0\04. Interface.exe
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\bin\Debug\net6.0\04. Interface.deps.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\bin\Debug\net6.0\04. Interface.runtimeconfig.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\bin\Debug\net6.0\04. Interface.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\bin\Debug\net6.0\04. Interface.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\obj\Debug\net6.0\04. Interface.csproj.AssemblyReference.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\obj\Debug\net6.0\04. Interface.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\obj\Debug\net6.0\04. Interface.AssemblyInfoInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\obj\Debug\net6.0\04. Interface.AssemblyInfo.cs
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\obj\Debug\net6.0\04. Interface.csproj.CoreCompileInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\obj\Debug\net6.0\04. Interface.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\obj\Debug\net6.0\refint\04. Interface.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\obj\Debug\net6.0\04. Interface.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\obj\Debug\net6.0\04. Interface.genruntimeconfig.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\04. Interface\obj\Debug\net6.0\ref\04. Interface.dll

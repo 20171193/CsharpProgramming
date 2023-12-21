@@ -1,8 +1,9 @@
-﻿using static System.Formats.Asn1.AsnWriter;
+﻿using System.Collections.Specialized;
+using System;
 
 namespace ETC
 {
-    // 경일 게임아카데미 실습과제
+    // 경일 게임아카데미
 
     #region 입출력, 변수
     //class Program
@@ -35,6 +36,7 @@ namespace ETC
     //    }
     //}
     #endregion
+
     #region 연산자
 
     //class LeeSin
@@ -183,11 +185,292 @@ namespace ETC
     //}
     #endregion
 
+    #region 조건문, 반복문 별찍기
+
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        int n = 0;
+
+    //        // 1. 1열
+    //        Console.WriteLine("-------------------");
+    //        Console.Write("숫자를 입력하시오:");
+    //        n = int.Parse(Console.ReadLine());
+    //        Console.WriteLine($"{n} 개의 별을 찍습니다.\n");
+    //        Console.ForegroundColor = ConsoleColor.Cyan;
+    //        for (int i = 0; i < n; i++)
+    //        {
+    //            Console.Write("*");
+    //        }
+
+    //        Console.ResetColor();
+    //        Console.WriteLine("2초 뒤 콘솔이 지워집니다.");
+    //        Thread.Sleep(3000);
+    //        Console.Clear();
+
+    //        // 2. 정사각형
+    //        Console.WriteLine("-------------------");
+    //        Console.Write("숫자를 입력하시오:");
+    //        n = int.Parse(Console.ReadLine());
+    //        Console.WriteLine($"{n}x{n} 정사각형의 별을 찍습니다.\n");
+    //        Console.ForegroundColor = ConsoleColor.Cyan;
+    //        for (int i = 0; i < n; i++)
+    //        {
+    //            for (int j = 0; j < n; j++)
+    //            {
+    //                Console.Write("*");
+    //            }
+    //            Console.WriteLine("");
+    //        }
+
+    //        Console.ResetColor();
+    //        Console.WriteLine("\n2초 뒤 콘솔이 지워집니다.");
+    //        Thread.Sleep(3000);
+    //        Console.Clear();
+
+    //        // 3. 직각삼각형 1~n
+    //        Console.WriteLine("-------------------");
+    //        Console.Write("숫자를 입력하시오:");
+    //        n = int.Parse(Console.ReadLine());
+    //        Console.WriteLine("직각삼각형 찍기");
+    //        Console.ForegroundColor = ConsoleColor.Cyan;
+    //        for (int i = 1; i <= n; i++)
+    //        {
+    //            for (int j = 1; j <= i; j++)
+    //            {
+    //                Console.Write("*");
+    //            }
+    //            Console.WriteLine("");
+    //        }
+
+    //        Console.ResetColor();
+    //        Console.WriteLine("2초 뒤 콘솔이 지워집니다.");
+    //        Thread.Sleep(3000);
+    //        Console.Clear();
+
+    //        // 4. 직각삼각형 n~1
+    //        Console.WriteLine("-------------------");
+    //        Console.Write("숫자를 입력하시오:");
+    //        n = int.Parse(Console.ReadLine());
+    //        Console.WriteLine("직각삼각형 찍기 (역방향)");
+    //        Console.ForegroundColor = ConsoleColor.Cyan;
+
+    //        for (int i = 1; i <= n; i++)
+    //        {
+    //            for (int j = n; j >= i; j--)
+    //            {
+    //                Console.Write("*");
+    //            }
+    //            Console.WriteLine("");
+    //        }
+
+    //        Console.ResetColor();
+    //        Console.WriteLine("2초 뒤 콘솔이 지워집니다.");
+    //        Thread.Sleep(3000);
+    //        Console.Clear();
+
+    //        // 5. 마름모
+    //        Console.WriteLine("-------------------");
+    //        Console.Write("숫자를 입력하시오:");
+    //        n = int.Parse(Console.ReadLine());
+    //        Console.WriteLine("마름모 찍기\n");
+    //        Console.ForegroundColor = ConsoleColor.Cyan;
+
+    //        // 1 3 5 7 9
+    //        int left = n, right = n;
+    //        for (int i = 1; i < n * 2; i++)
+    //        {
+    //            for (int j = 1; j < n * 2; j++)
+    //            {
+    //                if (j < left || j > right)
+    //                {
+    //                    Console.Write(" ");
+    //                }
+    //                else
+    //                {
+    //                    Console.Write("*");
+    //                }
+    //            }
+    //            Console.WriteLine("");
+
+    //            if (i < n)
+    //            {
+    //                left--;
+    //                right++;
+    //            }
+    //            else
+    //            {
+    //                left++;
+    //                right--;
+    //            }
+    //        }
+    //        Console.ResetColor();
+    //    }
+    //}
+
+    #endregion
+
+    #region 조건문, 반복문 과제 (컴퓨터와 가위바위보)
+    // <과제>
+    // 컴퓨터와 가위바위보를 진행하자
+    //
+    // <규칙>
+    //  1. 플레이어는 가위, 바위, 보 중에서 하나를 선택하여 입력하도록 하자
+    //  2. 랜덤으로 컴퓨터가 가위, 바위, 보 중에 하나를 선택하게 하자
+    //  3. 승패를 계산해서 플레이어가 이긴 횟수, 컴퓨터가 이긴 횟수를 보여주도록 하자
+    //  4. 둘 중 한쪽이 3번 이겼을 때 누가 이겼는지 출력하고 게임을 종료하도록 하 자
+
+    //class Program
+    //{
+    //    static void Main(string[] argc)
+    //    {
+    //        int winCountPlayer = 0; int winCountComputer = 0;
+    //        string inputPlayer = "";
+
+    //        Random rand = new Random();
+    //        do
+    //        {
+    //            Console.ForegroundColor = ConsoleColor.Cyan;
+    //            Console.WriteLine("------------------------------------------------");
+    //            Console.WriteLine("----------------- 가위 바위 보 -----------------");
+    //            Console.WriteLine("------------------------------------------------");
+    //            Console.WriteLine("--------------- <스 코 어 보 드> ---------------");
+    //            Console.WriteLine("------------------------------------------------");
+    //            Console.Write($"----------- ");
+    //            Console.ForegroundColor = ConsoleColor.Blue;
+    //            Console.Write($"플레이어:{winCountPlayer}");
+    //            Console.ForegroundColor = ConsoleColor.Yellow;
+    //            Console.Write($"    컴퓨터:{winCountComputer}");
+    //            Console.ForegroundColor = ConsoleColor.Cyan;
+    //            Console.WriteLine($" -------------");
+    //            Console.ForegroundColor = ConsoleColor.Cyan;
+    //            Console.WriteLine("------------------------------------------------\n");
+    //            Console.ResetColor();
+
+    //            do
+    //            {
+    //                Console.Write("가위, 바위, 보 중 하나를 입력하세요: ");
+    //                inputPlayer = Console.ReadLine();
+    //                Console.WriteLine("");
+    //            } while (inputPlayer != "가위" && inputPlayer != "바위" && inputPlayer != "보");
+
+    //            for(int i =0; i<3; i++)
+    //            {
+    //                Thread.Sleep(500);
+    //                Console.Write(".");
+    //            }
+
+    //            double d = rand.NextDouble();
+    //            if(0 <= d && d < 0.34)  // 가위
+    //            {
+    //                Console.WriteLine("  컴퓨터는 \"가위\" 를 냈습니다!\n");
+
+    //                if(inputPlayer == "바위")
+    //                {
+    //                    Thread.Sleep(1000);
+    //                    Console.ForegroundColor = ConsoleColor.Red;
+    //                    Console.WriteLine("이겼습니다!!!");
+    //                    Console.ResetColor();
+    //                    winCountPlayer++;
+    //                }
+    //                else if(inputPlayer == "보")
+    //                {
+    //                    Thread.Sleep(1000);
+    //                    Console.ForegroundColor = ConsoleColor.DarkRed;
+    //                    Console.WriteLine("졌습니다.");
+    //                    Console.ResetColor();
+    //                    winCountComputer++;
+    //                }
+    //                else
+    //                {
+    //                    Thread.Sleep(1000);
+    //                    Console.ForegroundColor = ConsoleColor.Green;
+    //                    Console.WriteLine("비겼습니다.");
+    //                    Console.ResetColor();
+    //                }
+    //            }
+    //            else if(0.34 <= d && d < 0.67)  // 바위
+    //            {
+    //                Console.WriteLine("  컴퓨터는 \"바위\" 를 냈습니다!\n");
+    //                if (inputPlayer == "바위")
+    //                {
+    //                    Thread.Sleep(1000);
+    //                    Console.ForegroundColor = ConsoleColor.Green;
+    //                    Console.WriteLine("비겼습니다.");
+    //                    Console.ResetColor();
+    //                }
+    //                else if (inputPlayer == "보")
+    //                {
+    //                    Thread.Sleep(1000);
+    //                    Console.ForegroundColor = ConsoleColor.Red;
+    //                    Console.WriteLine("이겼습니다!!!");
+    //                    Console.ResetColor();
+    //                    winCountPlayer++;
+    //                }
+    //                else
+    //                {
+    //                    Thread.Sleep(1000);
+    //                    Console.ForegroundColor = ConsoleColor.DarkRed;
+    //                    Console.WriteLine("졌습니다.");
+    //                    Console.ResetColor();
+    //                    winCountComputer++;
+    //                }
+    //            }
+    //            else  // 보
+    //            {
+    //                Console.WriteLine("  컴퓨터는 \"보\" 를 냈습니다!\n");
+    //                if (inputPlayer == "바위")
+    //                {
+    //                    Thread.Sleep(1000);
+    //                    Console.ForegroundColor = ConsoleColor.DarkRed;
+    //                    Console.WriteLine("졌습니다.");
+    //                    Console.ResetColor();
+    //                    winCountComputer++;
+    //                }
+    //                else if (inputPlayer == "보")
+    //                {
+    //                    Thread.Sleep(1000);
+    //                    Console.ForegroundColor = ConsoleColor.Green;
+    //                    Console.WriteLine("비겼습니다.");
+    //                    Console.ResetColor();
+    //                }
+    //                else
+    //                {
+    //                    Thread.Sleep(1000);
+    //                    Console.ForegroundColor = ConsoleColor.Red;
+    //                    Console.WriteLine("이겼습니다!!!");
+    //                    Console.ResetColor();
+    //                    winCountPlayer++;
+    //                }
+    //            }
+    //            Thread.Sleep(1200);
+    //            Console.Clear();
+    //        } while (winCountPlayer < 3 && winCountComputer < 3);
+
+    //        Console.WriteLine("*************************************");
+    //        if(winCountComputer > winCountPlayer)
+    //        {
+    //            Console.Write("***** 우승자는 ");
+    //            Console.ForegroundColor = ConsoleColor.Yellow;
+    //            Console.WriteLine("컴퓨터 입니다!");
+    //            Console.ResetColor();
+    //            Console.WriteLine("  *****");
+    //        }
+    //        else 
+    //        {
+    //            Console.Write("***** 우승자는 ");
+    //            Console.ForegroundColor = ConsoleColor.Blue;
+    //            Console.Write("플레이어 입니다!");
+    //            Console.ResetColor();
+    //            Console.WriteLine(" *****");
+    //        }
+    //        Console.WriteLine("*************************************");
+    //    }
+    //}
+    #endregion
+
     #region 테스트 코드
-
-
-
-
 
     #endregion
 }

@@ -1,4 +1,8 @@
-﻿namespace _01._Input_and_Output
+﻿/********************
+ * 콘솔을 통한 입출력
+ ********************/
+
+namespace _01._Input_and_Output
 {
     class Program
     {

@@ -1,5 +1,8 @@
 ﻿using System.Collections.Specialized;
 using System;
+using System.Net;
+using System.Data.SqlTypes;
+using System.Threading.Tasks.Dataflow;
 
 namespace ETC
 {
@@ -311,7 +314,7 @@ namespace ETC
 
     #endregion
 
-    #region 조건문, 반복문 과제 (컴퓨터와 가위바위보)
+    #region 조건문, 반복문 과제1 (컴퓨터와 가위바위보)
     // <과제>
     // 컴퓨터와 가위바위보를 진행하자
     //
@@ -321,7 +324,7 @@ namespace ETC
     //  3. 승패를 계산해서 플레이어가 이긴 횟수, 컴퓨터가 이긴 횟수를 보여주도록 하자
     //  4. 둘 중 한쪽이 3번 이겼을 때 누가 이겼는지 출력하고 게임을 종료하도록 하 자
 
-    //class Program
+    //class JJangKKamBBo
     //{
     //    static void Main(string[] argc)
     //    {
@@ -468,6 +471,220 @@ namespace ETC
     //        Console.WriteLine("*************************************");
     //    }
     //}
+    #endregion
+
+    #region 조건문, 반복문 과제2 (월남뽕)
+
+    //class WallNamBBong
+    //{
+    //    struct Pair
+    //    {
+    //        public int num1;
+    //        public int num2;
+
+    //        public Pair()
+    //        {
+    //            num1 = 0;
+    //            num2 = 0;
+    //        }
+    //    }
+    //    static void Main(string[] argc)
+    //    {
+    //        char key = ' ';  // 입력키 초기화
+    //        Random rand = new Random();
+    //        bool playGame = true;
+
+
+    //        do
+    //        {
+    //            int[] money = new int[4] { 10000, 10000, 10000, 10000 };
+    //            int people = 0;
+    //            int playerNum = 0;
+    //            int die = 0;
+    //            int stageMoney = 0; // 판돈 초기화
+    //            Pair[] cardPair = new Pair[4];  // 카드 초기화
+
+    //            Console.WriteLine("**************************************************");
+    //            Console.WriteLine("******************** 월 남 뽕 ********************");
+    //            Console.WriteLine("**************************************************");
+    //            Console.WriteLine("**************************************************");
+
+    //            do
+    //            {
+    //                Console.Write("\n게임에 참여할 인원 수를 입력하시오:");
+    //                people = int.Parse(Console.ReadLine());
+    //            } while (people <= 1 || people > 4);
+
+    //            Console.WriteLine();
+
+    //            Console.Write("카드 셔플중 ");
+
+    //            for (int i = 0; i < people; i++)
+    //            {
+    //                Console.Write(".");
+    //                Thread.Sleep(200);
+
+    //                Pair temp = new Pair();
+    //                temp.num1 = rand.Next(1, 9);
+    //                while ((temp.num1 == temp.num2) || temp.num2 == 0)
+    //                {
+    //                    temp.num2 = rand.Next(1, 9);
+    //                }
+    //                cardPair[i].num1 = temp.num1 > temp.num2 ? temp.num2 : temp.num1;
+    //                cardPair[i].num2 = temp.num1 > temp.num2 ? temp.num1 : temp.num2;
+    //            }
+
+    //            Console.WriteLine();
+
+    //            Console.WriteLine("**************************************************");
+    //            for (int i = 0; i < people; i++)
+    //            {
+    //                Console.WriteLine($"플레이어 {i + 1}의 카드는({cardPair[i].num1}),({cardPair[i].num2}) 자본은 {money[i]}원 입니다.");
+    //            }
+
+    //            Console.WriteLine("**************************************************");
+    //            playerNum = rand.Next(1, people);
+    //            Console.WriteLine($"\n당신은 플레이어는 ** {playerNum+1}번 ** 입니다.");
+    //            Thread.Sleep(1500);
+
+    //            bool win = false;
+    //            while (win == false)
+    //            {
+    //                for (int i = 0; i < people; i++)
+    //                {
+    //                    int bat = 0;
+    //                    if((die & (1 << i)) != 0)
+    //                    {
+    //                        continue;
+    //                    }
+    //                    if (money[i] == 0)
+    //                    {
+    //                        Thread.Sleep(500);
+    //                        Console.WriteLine($"플레이어 {i+1}번은 소지한 금액이 없어 다음 순서로 넘어갑니다.");
+    //                        continue;
+    //                    }
+
+    //                    // 유저 플레이어 입력
+    //                    if (i == playerNum)
+    //                    {
+    //                        Console.ForegroundColor = ConsoleColor.Magenta;
+    //                        Console.WriteLine("\n배팅 하시겠습니까?");
+    //                        Console.Write("**** (1):배팅 ** (2):포기 ** (E): 게임종료 **** : ");
+    //                        key = char.Parse(Console.ReadLine());
+    //                        Console.WriteLine();
+    //                        Console.ResetColor();
+    //                        switch (key)
+    //                        {
+    //                            case '1':
+    //                                Console.WriteLine($"현재 소지한 돈:{money[playerNum]}");
+    //                                Console.Write("배팅할 금액:");
+    //                                bat = int.Parse(Console.ReadLine());
+    //                                while (bat < 100 || bat > money[playerNum])
+    //                                {
+    //                                    Console.WriteLine("\n잘못된 입력입니다.");
+    //                                    Console.WriteLine("배팅할 금액:");
+    //                                    bat = int.Parse(Console.ReadLine());
+    //                                }
+    //                                Console.ForegroundColor = ConsoleColor.Green;
+    //                                Console.WriteLine($"\n플레이어 {i+1}번이 {bat} 원을 배팅했습니다.");
+    //                                Console.ResetColor();
+    //                                money[playerNum] -= bat;
+    //                                stageMoney += bat;
+    //                                break;
+    //                            case '2':
+    //                                Console.WriteLine("다음 순서로 넘어갑니다.\n");
+    //                                break;
+    //                            case 'e':
+    //                            case 'E':
+    //                            case 'ㄷ':
+    //                                playGame = false;
+    //                                break;
+    //                        }
+    //                    }
+    //                    // 남은 플레이어 자동배팅
+    //                    else
+    //                    {
+    //                        Thread.Sleep(1500);
+    //                        bat = money[i];
+    //                        money[i] = 0;
+    //                        stageMoney += bat;
+    //                        Console.ForegroundColor = ConsoleColor.Green;
+    //                        Console.WriteLine($"\n플레이어 {i+1}번이 {bat} 원을 배팅했습니다.");
+    //                        Console.ResetColor();
+    //                    }
+    //                    Thread.Sleep(500);
+    //                }
+
+    //                Thread.Sleep(500);
+    //                Console.WriteLine("\n**************************************************");
+    //                Console.Write($"**************** 현재 판돈:");
+    //                Console.ForegroundColor = ConsoleColor.Blue;
+    //                Console.Write($"{stageMoney}");
+    //                Console.ResetColor();
+    //                Console.WriteLine("원 ***************");
+    //                Console.WriteLine("**************************************************\n");
+    //                Thread.Sleep(500);
+
+    //                for(int i=0; i<people; i++)
+    //                {
+    //                    if((die & (1<<i)) == 0) // 플레이어가 죽지 않았다면
+    //                    {
+    //                        Console.Write($"{i+1}번 플레이어 카드오픈:");
+    //                        for(int j =0; j<3; j++)
+    //                        {
+    //                            Console.Write(".");
+    //                            Thread.Sleep(300);
+    //                        }
+    //                        int openCard = rand.Next(1, 9);
+    //                        Console.Write($"오픈한 카드는 ({cardPair[i].num1} < ");
+    //                        Console.ForegroundColor= ConsoleColor.Red;
+    //                        Console.Write($"{openCard}");
+    //                        Console.ResetColor();
+    //                        Console.WriteLine($" < {cardPair[i].num2}) 입니다!");
+    //                        if(cardPair[i].num1 < openCard && cardPair[i].num2 > openCard)
+    //                        {
+    //                            Thread.Sleep(500);
+    //                            Console.WriteLine($"{i+1}번 플레이어 게임 승리!");
+    //                            Console.WriteLine($"판돈 {stageMoney}를 가져갑니다!");
+    //                            money[i] += stageMoney;
+    //                            win = true;
+    //                            // 다이 처리
+    //                            Console.WriteLine();
+    //                            for(int j =0; j < people; j++)
+    //                            {
+    //                                if (money[j] <= 0)
+    //                                {
+    //                                    Console.WriteLine($"{j+1}번 플레이어는 올인하여 게임에 참가하지 못합니다.");
+    //                                    Thread.Sleep(500);
+    //                                    die |= (1 << j);
+    //                                }
+    //                            }
+    //                            Thread.Sleep(7000);
+    //                            Console.Clear();
+    //                            break;
+    //                        }
+    //                        else
+    //                        {
+    //                            Console.WriteLine($"패배!");
+    //                            Thread.Sleep(500);
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        } while (playGame == true);
+    //    }
+    //}
+
+    #endregion
+
+    #region 조건문, 반복문 과제3 (블랙잭)
+
+    class BlackJack
+    {
+
+    }
+
+
     #endregion
 
     #region 테스트 코드

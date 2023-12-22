@@ -37,6 +37,7 @@
         // 카드풀에서 랜덤으로 카드를 하나 뽑아 반환한다.
         public void CardShuffle(Member member)
         {
+
             int drawCard = 0;
 
             Console.Write("카드 셔플중");

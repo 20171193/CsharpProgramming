@@ -1,8 +1,8 @@
-﻿using System.Collections.Specialized;
-using System;
+﻿using System;
 using System.Net;
 using System.Data.SqlTypes;
 using System.Threading.Tasks.Dataflow;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ETC
 {
@@ -677,93 +677,465 @@ namespace ETC
 
     #endregion
 
-    #region 테스트 코드
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
+    #region 열거형, 구조체 과제 1 (컴퓨터와 가위바위보)
+    // 룰
+    // 1. 플레이어에게 가위, 바위, 보 중 하나를 입력받도록 함.
+    // 2. 컴퓨터는 랜덤으로 가위, 바위, 보 중에서 하나를 선택하도록 함.
+    // 3. 가위바위보 승패를 계산해서 이긴측에 승수를 1올려주도록 함.
+    // 4. 어느 한쪽이라도 3승을 먼저 한 경우 ~~가 승리 했습니다.
 
-    public struct Pos
+    // 조건
+    // 1. Main함수의 길이는 20줄로 제한
+    // 2. 가위,바위,보 string 허용 X
+    // 3. 플레이어 입력을 ReadKey로 진행
+
+    //class RockScissorsPaper
+    //{
+    //    public enum RPS
+    //    {
+    //        Scissors = 1,
+    //        Rock,
+    //        Paper
+    //    }
+    //    public enum User
+    //    {
+    //        Player = 0,
+    //        Computer
+    //    }
+
+    //    public Random rand = new Random();
+    //    public int playerScore = 0, computerScore = 0;
+
+    //    public void Render()
+    //    {
+    //        Console.ForegroundColor = ConsoleColor.Red;
+    //        Console.WriteLine("*******************************************");
+    //        Console.ForegroundColor = ConsoleColor.Yellow;
+    //        Console.WriteLine("*******************************************");
+    //        Console.ForegroundColor = ConsoleColor.Green;
+    //        Console.WriteLine("***           가위바위보 게임           ***");
+    //        Console.ForegroundColor = ConsoleColor.Yellow;
+    //        Console.WriteLine("*******************************************");
+    //        Console.ForegroundColor = ConsoleColor.Red;
+    //        Console.WriteLine("*******************************************");
+    //        Console.ResetColor();
+    //        Console.WriteLine("*******************************************");
+    //        Console.WriteLine("***             스코어보드              ***");
+    //        Console.WriteLine("*******************************************");
+    //        Console.Write("* ");
+    //        Console.ForegroundColor= ConsoleColor.Red;    
+    //        Console.Write($"플레이어 : {playerScore}");
+    //        Console.Write("                 ");
+    //        Console.ForegroundColor = ConsoleColor.Yellow;
+    //        Console.Write($"컴퓨터 : {computerScore}");
+    //        Console.ResetColor();
+    //        Console.WriteLine($" *");
+    //        Console.WriteLine("*******************************************");
+
+
+    //    }
+    //    public void RenderClear()
+    //    {
+    //        Console.WriteLine();
+    //        Console.Write("5초 뒤 결과가 갱신됩니다.");
+    //        for (int i = 0; i < 4; i++)
+    //        {
+    //            Thread.Sleep(1000);
+    //            Console.Write(".");
+    //        }
+    //        Console.Clear();
+    //    }
+    //    public RPS ComputerRandomInput()
+    //    {
+    //        int temp = rand.Next(1, 3);
+    //        Console.Write("컴퓨터는 ");
+    //        switch((RPS)temp)
+    //        {
+    //            case RPS.Scissors:
+    //                Console.ForegroundColor = ConsoleColor.Red;
+    //                Console.Write("가위");
+    //                break;
+    //            case RPS.Rock:
+    //                Console.ForegroundColor = ConsoleColor.Blue;
+    //                Console.Write("바위");
+    //                break;
+    //            case RPS.Paper:
+    //                Console.ForegroundColor = ConsoleColor.Green;
+    //                Console.Write("보");
+    //                break;
+    //        }
+    //        Console.ResetColor();
+    //        Console.WriteLine("를 냈습니다.");
+    //        return (RPS)temp;
+    //    }
+    //    public void GamePlaying()
+    //    {
+    //        Console.WriteLine();
+    //        Console.WriteLine("무엇을 내시겠습니까?");
+    //        Console.Write("--- 가위:(1) 바위:(2) 보:(3) --- :");
+    //        ConsoleKeyInfo inputKey = Console.ReadKey();
+    //        while(inputKey.Key != ConsoleKey.D1 && inputKey.Key != ConsoleKey.D2 && inputKey.Key != ConsoleKey.D3)
+    //        {
+    //            Console.WriteLine("잘못된 입력입니다.");
+    //            Console.Write("--- 가위:(1) 바위:(2) 보:(3) --- :");
+    //            inputKey = Console.ReadKey();
+    //        }
+    //        Console.WriteLine();
+    //        RPS playerKey = KeyToRPS(inputKey.Key);
+    //        Console.Write("플레이어는 ");
+    //        switch (playerKey)
+    //        {
+    //            case RPS.Scissors:
+    //                Console.ForegroundColor = ConsoleColor.Red;
+    //                Console.Write("가위");
+    //                break;
+    //            case RPS.Rock:
+    //                Console.ForegroundColor = ConsoleColor.Blue;
+    //                Console.Write("바위");
+    //                break;
+    //            case RPS.Paper:
+    //                Console.ForegroundColor = ConsoleColor.Green;
+    //                Console.Write("보");
+    //                break;
+    //            default:
+    //                Console.WriteLine("에러 (GamePlaying)");
+    //                break;
+    //        }
+    //        Console.ResetColor();
+    //        Console.WriteLine("를 냈습니다.");
+
+    //        RPS computerKey = ComputerRandomInput();
+
+    //        Console.WriteLine();
+    //        Console.Write("승패여부 판단중");
+    //        for(int i=0; i<5; i++)
+    //        {
+    //            Thread.Sleep(300);
+    //            Console.Write(".");
+    //        }
+
+    //        Console.ForegroundColor = ConsoleColor.Magenta;
+    //        if (playerKey==computerKey)
+    //        {
+    //            Console.WriteLine(" 비겼습니다 !");
+    //        }
+    //        else 
+    //        {
+    //            switch(playerKey)
+    //            {
+    //                case RPS.Scissors:
+    //                    if(computerKey == RPS.Rock) // 바위
+    //                    {
+    //                        Console.WriteLine(" 졌습니다.");
+    //                        computerScore++;
+    //                    }
+    //                    else // 보
+    //                    {
+    //                        Console.WriteLine(" 이겼습니다!!!");
+    //                        playerScore++;
+    //                    }
+    //                    break;
+    //                case RPS.Rock:
+    //                    if (computerKey == RPS.Paper) // 바위
+    //                    {
+    //                        Console.WriteLine(" 졌습니다.");
+    //                        computerKey++;
+    //                    }
+    //                    else // 보
+    //                    {
+    //                        Console.WriteLine(" 이겼습니다!!!");
+    //                        playerScore++;
+    //                    }
+    //                    break;
+    //                case RPS.Paper:
+    //                    if (computerKey == RPS.Scissors) // 바위
+    //                    {
+    //                        Console.WriteLine(" 졌습니다.");
+    //                        computerScore++;
+    //                    }
+    //                    else // 보
+    //                    {
+    //                        Console.WriteLine(" 이겼습니다!!!");
+    //                        playerScore++;
+    //                    }
+    //                    break;
+    //            }
+    //        }
+    //        Console.ResetColor();
+    //    }
+
+    //    public void GameEnded()
+    //    {
+    //        for (int i = 0; i <=9; i++)
+    //        {
+    //            Console.Clear();
+    //            if (i % 3 == 0)
+    //            {
+    //                Console.WriteLine("*******************************************");
+    //                Console.ForegroundColor = ConsoleColor.Yellow;
+    //                Console.WriteLine("*******************************************");
+    //                Console.ForegroundColor = ConsoleColor.Red;
+    //                Console.WriteLine("*******************************************");
+    //                Console.ResetColor();
+    //                Console.Write("      우승자는 ");
+    //                Console.ForegroundColor = ConsoleColor.Blue;
+    //                if (playerScore > computerScore)
+    //                {
+    //                    Console.Write("플레이어");
+    //                }
+    //                else
+    //                {
+    //                    Console.Write("컴퓨터");
+    //                }
+    //                Console.ResetColor();
+    //                Console.WriteLine(" 입니다 !!");
+    //                Console.ForegroundColor = ConsoleColor.Red;
+    //                Console.WriteLine("*******************************************");
+    //                Console.ForegroundColor = ConsoleColor.Yellow;
+    //                Console.WriteLine("*******************************************");
+    //                Console.ResetColor();
+    //                Console.WriteLine("*******************************************");
+    //            }
+    //            else if (i % 3 == 1)
+    //            {
+    //                Console.ForegroundColor = ConsoleColor.Red;
+    //                Console.WriteLine("*******************************************");
+    //                Console.ResetColor();
+    //                Console.WriteLine("*******************************************");
+    //                Console.ForegroundColor = ConsoleColor.Yellow;
+    //                Console.WriteLine("*******************************************");
+    //                Console.ResetColor();
+    //                Console.Write("      우승자는 ");
+    //                Console.ForegroundColor = ConsoleColor.DarkBlue;
+    //                if (playerScore > computerScore)
+    //                {
+    //                    Console.Write("플레이어");
+    //                }
+    //                else
+    //                {
+    //                    Console.Write("컴퓨터");
+    //                }
+    //                Console.ResetColor();
+    //                Console.WriteLine(" 입니다 !!");
+    //                Console.ForegroundColor = ConsoleColor.Yellow;
+    //                Console.WriteLine("*******************************************");
+    //                Console.ResetColor();
+    //                Console.WriteLine("*******************************************");
+    //                Console.ForegroundColor = ConsoleColor.Red;
+    //                Console.WriteLine("*******************************************");
+    //            }
+    //            else
+    //            {
+    //                Console.ForegroundColor = ConsoleColor.Yellow;
+    //                Console.WriteLine("*******************************************");
+    //                Console.ForegroundColor = ConsoleColor.Red;
+    //                Console.WriteLine("*******************************************");
+    //                Console.ResetColor();
+    //                Console.WriteLine("*******************************************");
+    //                Console.ResetColor();
+    //                Console.Write("      우승자는 ");
+    //                Console.ForegroundColor = ConsoleColor.Cyan;
+    //                if (playerScore > computerScore)
+    //                {
+    //                    Console.Write("플레이어");
+    //                }
+    //                else
+    //                {
+    //                    Console.Write("컴퓨터");
+    //                }
+    //                Console.ResetColor();
+    //                Console.WriteLine(" 입니다 !!");
+    //                Console.ResetColor();
+    //                Console.WriteLine("*******************************************");
+    //                Console.ForegroundColor = ConsoleColor.Red;
+    //                Console.WriteLine("*******************************************");
+    //                Console.ForegroundColor = ConsoleColor.Yellow;
+    //                Console.WriteLine("*******************************************");
+    //            }
+    //            Console.ResetColor();
+    //            Thread.Sleep(500);
+    //        }
+
+    //    }
+    //    public User GetPlayerInput()
+    //    {
+    //        return User.Player;
+    //    }
+    //    public RPS KeyToRPS(ConsoleKey key)
+    //    {
+    //        switch(key)
+    //        {
+    //            case ConsoleKey.D1:
+    //                return RPS.Scissors;
+    //            case ConsoleKey.D2:
+    //                return RPS.Rock;
+    //            case ConsoleKey.D3:
+    //                return RPS.Paper;
+    //            default:
+    //                Console.WriteLine("키 입력 에러 (KeyToRPS)");
+    //                return RPS.Scissors;
+    //        }
+    //    }
+
+    //    static void Main(string[] argc)
+    //    {
+    //        RockScissorsPaper rsp = new RockScissorsPaper();
+
+    //        while (rsp.playerScore < 3 && rsp.computerScore < 3)
+    //        {
+    //            rsp.Render();
+    //            rsp.GamePlaying();
+    //            rsp.RenderClear();
+    //        }
+    //        rsp.GameEnded();
+    //    }
+    //}
+
+
+    #endregion
+
+    #region 열거형, 구조체과제 2
+    // 슬라이드 퍼즐 만들기
+    // 5x5 판을 생성하고 랜덤한 숫자를 배치한다.
+    // 시작위치는 상관없으며 ArrowKey입력시 해당 방향으로 이동한다.
+    // 단, 밖으로 벗어날 수 없다.
+    // 아래 예시는 0이 움직이는 것으로 가정한다.
+    class Puzzle
     {
-        public int x;
-        public int y;
-
-        public Pos(int x, int y)
+        enum Direction
         {
-            this.x = x;
-            this.y = y;
+            LEFT = 0,
+            RIGHT,
+            DOWN,
+            UP
         }
-    }
 
-    class Solution
-    {
-        public int[,] visited = null;
-        public int[] dx = new int[4] { 1, 0, -1, 0 };
-        public int[] dy = new int[4] { 0, 1, 0, -1 };
-        public int n, m;
-
-        public Pos player, target;
-
-        public void BFS(int[,] map)
+        public struct Pos
         {
-            visited[player.y, player.x] = 1;
-            Queue<Pos> q = new Queue<Pos>();
-            q.Enqueue(player);
-
-            while (q.Count > 0)
+            public int x;
+            public int y;
+            public Pos(int x, int y)
             {
-                Pos temp = q.Peek();
-                q.Dequeue();
-
-                for (int i = 0; i < 4; i++)
+                this.x = x;
+                this.y = y;
+            }
+        }
+        public Random rand = new Random();
+        public bool[] used = new bool[26];
+        public int[,] myMap = new int[5, 5];
+        public Pos[] pos = new Pos[4] { new Pos(-1,0), new Pos(1,0), new Pos(0,1), new Pos(0,-1)};
+        public Pos curPos;
+        public void SettingMap()
+        {
+            for (int y = 0; y < 5; y++)
+            {
+                for(int x = 0; x < 5; x++)
                 {
-                    int nx = dx[i] + temp.x;
-                    int ny = dy[i] + temp.y;
-
-                    if (nx < 0 || nx >= m || ny < 0 || ny >= n) continue;
-                    if (visited[ny, nx] > 0) continue;
-                    if (map[ny, nx] == 0) continue;
-
-                    visited[ny, nx] = visited[temp.y, temp.x] + 1;
-                    Pos npos = new Pos(nx, ny);
-                    q.Enqueue(npos);
+                    int num = rand.Next(0, 25);
+                    while (used[num])
+                    {
+                        num = rand.Next(0, 25);
+                    }
+                    used[num] = true;
+                    myMap[y, x] = num;
+                    if (myMap[y,x] == 0)
+                    {
+                        curPos = new Pos(x, y);
+                    }
                 }
             }
-
         }
 
-        public int solution(int[,] maps)
+        public void Render()
         {
-            int answer = 0;
-            n = maps.GetLength(0);
-            m = maps.GetLength(1);
+            Console.Clear();
 
-            visited = new int[n, m];
-            
-            player = new Pos(0, 0);
-            target = new Pos(n - 1, m - 1);
+            Console.WriteLine("************************");
+            Console.WriteLine("  방향키를 입력하세요.  ");
+            Console.WriteLine("************************");
+            Console.WriteLine();
 
-            BFS(maps);
 
-            answer = visited[target.y, target.x];
 
-            return answer;
+            for (int y = 0; y < 5; y++)
+            {
+                Console.Write("   ");
+                for (int x = 0; x < 5; x++)
+                {
+                    Console.Write(" ");
+                    if (myMap[y,x] == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    Console.Write($"{myMap[y, x]}");
+                    Console.ResetColor();
+                    if (myMap[y,x] < 10)
+                    {
+                        Console.Write(" ");
+                    }
+                }
+                Console.WriteLine();
+            }
         }
-
+        public void Input()
+        {
+            ConsoleKeyInfo key = Console.ReadKey();
+            Pos Npos= new Pos(0,0);
+            switch(key.Key)
+            {
+                case ConsoleKey.LeftArrow:
+                    {
+                        Npos.y = curPos.y + pos[(int)Direction.LEFT].y;
+                        Npos.x = curPos.x + pos[(int)Direction.LEFT].x;
+                        break;
+                    }
+                    case ConsoleKey.RightArrow:
+                    {
+                        Npos.y = curPos.y + pos[(int)Direction.RIGHT].y;
+                        Npos.x = curPos.x + pos[(int)Direction.RIGHT].x;
+                        break;
+                    }
+                case ConsoleKey.UpArrow:
+                    {
+                        Npos.y = curPos.y + pos[(int)Direction.UP].y;
+                        Npos.x = curPos.x + pos[(int)Direction.UP].x;
+                        break;
+                    }
+                case ConsoleKey.DownArrow:
+                    {
+                        Npos.y = curPos.y + pos[(int)Direction.DOWN].y;
+                        Npos.x = curPos.x + pos[(int)Direction.DOWN].x;
+                        break;
+                    }
+                default:
+                    return;
+            }
+            Move(Npos);
+        }
+        public void Move(Pos nextPos)
+        {
+            if (nextPos.x < 0 || nextPos.x >= 5 || nextPos.y < 0 || nextPos.y >= 5) return;
+            else
+            {
+                myMap[curPos.y, curPos.x] = myMap[nextPos.y, nextPos.x];
+                curPos = nextPos;
+                myMap[nextPos.y, nextPos.x] = 0;
+            }
+        }
         static void Main(string[] argc)
         {
-            int[,] maps = {
-                { 1, 0, 1, 1, 1 },
-                { 1, 0, 1, 1, 1 },
-                { 1, 0, 1, 1, 1 },
-                { 1, 1, 1, 1, 1 },
-                { 0, 1, 1, 1, 1 },
-                { 0, 1, 1, 1, 1 },
-                { 0, 1, 1, 1, 1 },
-                { 0, 1, 1, 1, 1 }
-            };
-            Solution sol = new Solution();
-            sol.solution(maps);
+            Puzzle puzzle = new Puzzle();
+            puzzle.SettingMap();
+            while (true)
+            {
+                puzzle.Render();
+                puzzle.Input();
+            }
         }
     }
+
+    #endregion
+
+    #region 테스트 코드
     #endregion
 }

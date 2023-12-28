@@ -3,6 +3,9 @@ using System.Net;
 using System.Data.SqlTypes;
 using System.Threading.Tasks.Dataflow;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.VisualBasic;
+using System.Transactions;
+using System.Reflection.Metadata.Ecma335;
 
 namespace ETC
 {
@@ -994,148 +997,1077 @@ namespace ETC
 
     #endregion
 
-    #region 열거형, 구조체과제 2
+    #region 열거형, 구조체과제 2 (방향키 입력받기)
     // 슬라이드 퍼즐 만들기
     // 5x5 판을 생성하고 랜덤한 숫자를 배치한다.
     // 시작위치는 상관없으며 ArrowKey입력시 해당 방향으로 이동한다.
     // 단, 밖으로 벗어날 수 없다.
     // 아래 예시는 0이 움직이는 것으로 가정한다.
-    class Puzzle
+    //class Puzzle
+    //{
+    //    enum Direction
+    //    {
+    //        LEFT = 0,
+    //        RIGHT,
+    //        DOWN,
+    //        UP
+    //    }
+
+    //    public struct Pos
+    //    {
+    //        public int x;
+    //        public int y;
+    //        public Pos(int x, int y)
+    //        {
+    //            this.x = x;
+    //            this.y = y;
+    //        }
+    //    }
+    //    public Random rand = new Random();
+    //    public bool[] used = new bool[26];
+    //    public int[,] myMap = new int[5, 5];
+    //    public Pos[] pos = new Pos[4] { new Pos(-1,0), new Pos(1,0), new Pos(0,1), new Pos(0,-1)};
+    //    public Pos curPos;
+    //    public void SettingMap()
+    //    {
+    //        for (int y = 0; y < 5; y++)
+    //        {
+    //            for(int x = 0; x < 5; x++)
+    //            {
+    //                int num = rand.Next(0, 25);
+    //                while (used[num])
+    //                {
+    //                    num = rand.Next(0, 25);
+    //                }
+    //                used[num] = true;
+    //                myMap[y, x] = num;
+    //                if (myMap[y,x] == 0)
+    //                {
+    //                    curPos = new Pos(x, y);
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //    public void Render()
+    //    {
+    //        Console.Clear();
+
+    //        Console.WriteLine("************************");
+    //        Console.WriteLine("  방향키를 입력하세요.  ");
+    //        Console.WriteLine("************************");
+    //        Console.WriteLine();
+
+
+
+    //        for (int y = 0; y < 5; y++)
+    //        {
+    //            Console.Write("   ");
+    //            for (int x = 0; x < 5; x++)
+    //            {
+    //                Console.Write(" ");
+    //                if (myMap[y,x] == 0)
+    //                {
+    //                    Console.ForegroundColor = ConsoleColor.Red;
+    //                }
+    //                Console.Write($"{myMap[y, x]}");
+    //                Console.ResetColor();
+    //                if (myMap[y,x] < 10)
+    //                {
+    //                    Console.Write(" ");
+    //                }
+    //            }
+    //            Console.WriteLine();
+    //        }
+    //    }
+    //    public void Input()
+    //    {
+    //        ConsoleKeyInfo key = Console.ReadKey();
+    //        Pos Npos= new Pos(0,0);
+    //        switch(key.Key)
+    //        {
+    //            case ConsoleKey.LeftArrow:
+    //                {
+    //                    Npos.y = curPos.y + pos[(int)Direction.LEFT].y;
+    //                    Npos.x = curPos.x + pos[(int)Direction.LEFT].x;
+    //                    break;
+    //                }
+    //                case ConsoleKey.RightArrow:
+    //                {
+    //                    Npos.y = curPos.y + pos[(int)Direction.RIGHT].y;
+    //                    Npos.x = curPos.x + pos[(int)Direction.RIGHT].x;
+    //                    break;
+    //                }
+    //            case ConsoleKey.UpArrow:
+    //                {
+    //                    Npos.y = curPos.y + pos[(int)Direction.UP].y;
+    //                    Npos.x = curPos.x + pos[(int)Direction.UP].x;
+    //                    break;
+    //                }
+    //            case ConsoleKey.DownArrow:
+    //                {
+    //                    Npos.y = curPos.y + pos[(int)Direction.DOWN].y;
+    //                    Npos.x = curPos.x + pos[(int)Direction.DOWN].x;
+    //                    break;
+    //                }
+    //            default:
+    //                return;
+    //        }
+    //        Move(Npos);
+    //    }
+    //    public void Move(Pos nextPos)
+    //    {
+    //        if (nextPos.x < 0 || nextPos.x >= 5 || nextPos.y < 0 || nextPos.y >= 5) return;
+    //        else
+    //        {
+    //            myMap[curPos.y, curPos.x] = myMap[nextPos.y, nextPos.x];
+    //            curPos = nextPos;
+    //            myMap[nextPos.y, nextPos.x] = 0;
+    //        }
+    //    }
+    //    static void Main(string[] argc)
+    //    {
+    //        Puzzle puzzle = new Puzzle();
+    //        puzzle.SettingMap();
+    //        while (true)
+    //        {
+    //            puzzle.Render();
+    //            puzzle.Input();
+    //        }
+    //    }
+    //}
+
+    #endregion
+
+    #region 깊은 복사와 얕은 복사 예시코드
+
+
+    //public class TestClass
+    //{
+    //    public int x = 0;
+    //    public TestClass() { }
+    //}
+    //public struct TestStruct
+    //{
+    //    public int x = 0;
+    //    public TestStruct() { }
+    //}
+
+    //class program
+    //{
+    //    static void Main(string[] argc)
+    //    {
+    //        float b = 2.2f;
+    //        int a = b;
+    //        plus();
+    //        string str = "abcdefg";
+
+    //        foreach (char a in str)
+    //        {
+    //            Console.WriteLine($"{a}");
+    //        }
+
+    //        for (int i = 0; i < 5; i++)
+    //        {
+    //            Console.ForegroundColor = ConsoleColor.Red;
+    //            Console.WriteLine($"i = {i}");
+    //            for (int j = 0; j < 5; j++)
+    //            {
+    //                Console.ForegroundColor = ConsoleColor.Green;
+    //                Console.WriteLine($"j = {j}");
+    //                break;
+    //            }
+    //        }
+
+
+    //        TestClass class1 = new TestClass();
+    //        class1.x = 1;
+
+    //        TestClass class2 = class1;
+
+    //        TestStruct struct1 = new TestStruct();
+    //        struct1.x = 1;
+
+    //        TestStruct struct2 = struct1;
+
+
+    //        while (true)
+    //        {
+    //            ConsoleKeyInfo key = Console.ReadKey();
+    //            if (key.Key == ConsoleKey.RightArrow)
+    //            {
+    //                Console.Clear();
+    //                class2.x++;
+    //                struct2.x++;
+    //            }
+    //            for (int i = 0; i < class1.x; i++)
+    //            {
+    //                Console.Write(" ");
+    //            }
+    //            Console.WriteLine("C1");
+    //            for (int i = 0; i < class2.x; i++)
+    //            {
+    //                Console.Write(" ");
+    //            }
+    //            Console.WriteLine("C2");
+
+    //            Console.WriteLine();
+
+    //            for (int i = 0; i < struct1.x; i++)
+    //            {
+    //                Console.Write(" ");
+    //            }
+    //            Console.WriteLine("S1");
+
+    //            for (int i = 0; i < struct2.x; i++)
+    //            {
+    //                Console.Write(" ");
+    //            }
+    //            Console.WriteLine("S2");
+    //        }
+
+    //    }
+
+    //    static int plus() { return 0; }
+    //}
+
+    #endregion
+
+    #region OOP 과제 1 (객체지향 프로그래밍 다루기) 
+    // a. 드라이버, 차 클래스 객체 생성
+    // b. 드라이버 <-> 차
+    // c. 가속, 감속
+    // d. 차의 속도 변화
+    //enum CarType
+    //{
+    //    Lamborgini = 0,
+    //    Porshe,
+    //    Tico
+    //}
+
+    //class Driver
+    //{
+    //    private Car myCar;
+
+    //    public void RideCar(Car car)
+    //    {
+    //        myCar = car;
+    //        Console.WriteLine($"{myCar.CarName}에 탑승합니다.");
+    //        Console.WriteLine($"{myCar.CarName}의 최고 속력은 {myCar.MaxSpeed}km/h 입니다.");
+    //    }
+    //    public void StepAccelerator(int value)
+    //    {
+    //        if (myCar == null)
+    //        {
+    //            Console.WriteLine("우선 차량에 탑승하세요.");
+    //            return;
+    //        }
+    //        myCar.SpeedUp(value);
+    //    }
+    //    public void StepBrake(int value)
+    //    {
+    //        if (myCar == null)
+    //        {
+    //            Console.WriteLine("우선 차량에 탑승하세요.");
+    //            return;
+    //        }
+    //        myCar.SpeedDown(value);
+    //    }
+    //}
+    //class Car
+    //{
+    //    private CarType myCarType;
+    //    public CarType MyCarType { get { return myCarType; } }
+
+    //    private string carName;
+    //    public string CarName { get { return carName; } }
+
+    //    private int maxSpeed;
+    //    public int MaxSpeed { get { return maxSpeed; } }
+
+    //    private int speed;
+    //    public int Speed { get { return speed; } }
+
+    //    public Car(CarType carType)
+    //    {
+    //        myCarType = carType;
+    //        switch (myCarType)
+    //        {
+    //            case CarType.Lamborgini:
+    //                carName = "람보르기니";
+    //                maxSpeed = 600;
+    //                break;
+    //            case CarType.Porshe:
+    //                carName = "포르쉐";
+    //                maxSpeed = 500;
+    //                break;
+    //            case CarType.Tico:
+    //                carName = "티코";
+    //                maxSpeed = 100;
+    //                break;
+    //        }
+    //    }
+
+    //    public void SpeedUp(int value)
+    //    {
+    //        if (speed + value <= maxSpeed)
+    //        {
+    //            speed += value;
+    //            Console.WriteLine($"{value} km/h 만큼 가속합니다.");
+    //        }
+    //        else
+    //        {
+    //            Console.WriteLine($"{maxSpeed - speed} km/h 만큼 가속합니다.");
+    //            speed = maxSpeed;
+    //        }
+    //        Console.WriteLine($"{speed} / {maxSpeed} km/h");
+    //    }
+    //    public void SpeedDown(int value)
+    //    {
+    //        if (speed - value >= 0)
+    //        {
+    //            speed -= value;
+    //            Console.WriteLine($"{value} km/h 만큼 감속합니다.");
+    //        }
+    //        else
+    //        {
+    //            Console.WriteLine($"{speed} km/h 만큼 감속합니다.");
+    //            speed = 0;
+    //        }
+    //        Console.WriteLine($"{speed} / {maxSpeed} km/h");
+    //    }
+    //}
+
+    //class Program
+    //{
+    //    static void Main(string[] argc)
+    //    {
+    //        Car lamborgini = new Car(CarType.Lamborgini);
+    //        Car porshe = new Car(CarType.Porshe);
+    //        Car tico = new Car(CarType.Tico);
+
+    //        Driver driver = new Driver();
+    //        Console.WriteLine("탑승할 차량을 선택하시오");
+    //        Console.Write("(1:람보르기니) (2:포르쉐) (3:티코)");
+
+    //        ConsoleKeyInfo carKey;
+    //        do
+    //        {
+    //            carKey = Console.ReadKey();
+    //        } while (carKey.Key != ConsoleKey.D1 && carKey.Key != ConsoleKey.D2 && carKey.Key != ConsoleKey.D3);
+
+    //        Console.WriteLine("\n");
+
+    //        switch (carKey.Key)
+    //        {
+    //            case ConsoleKey.D1:
+    //                driver.RideCar(lamborgini);
+    //                break;
+    //            case ConsoleKey.D2:
+    //                driver.RideCar(porshe);
+    //                break;
+    //            case ConsoleKey.D3:
+    //                driver.RideCar(tico);
+    //                break;
+    //        }
+    //        Console.WriteLine("");
+
+    //        Console.Write("(1:엑셀) (2:브레이크) (P:종료)");
+    //        ConsoleKeyInfo inputKey;
+    //        do
+    //        {
+    //            inputKey = Console.ReadKey();
+    //            Console.WriteLine("\n");
+    //            if (inputKey.Key == ConsoleKey.D1)
+    //            {
+    //                driver.StepAccelerator(100);
+    //            }
+    //            else if (inputKey.Key == ConsoleKey.D2)
+    //            {
+    //                driver.StepBrake(50);
+    //            }
+    //            else
+    //            {
+    //                Console.WriteLine("잘못된 입력입니다.");
+    //                Console.WriteLine("(1:엑셀) (2:브레이크) (P:종료)");
+    //            }
+    //            Console.WriteLine();
+    //        } while (inputKey.Key != ConsoleKey.P);
+    //    }
+    //}
+    #endregion
+
+    #region OOP 과제 2 (캡슐화:몬스터 정의 / 상속:여러 몬스터 종류 생성) 
+    // a. 몬스터에 이름, 체력, 데미지 받기
+    // b. 여러 몬스터 종류 생성
+    // c. 오크, 슬라임, 드래곤
+    // d. 오크:분노 
+    // e. 슬라임 : 분열
+    // f. 드래곤 : 브레스
+
+    //class Monster
+    //{
+    //    protected string name;
+    //    public string Name { get { return name; } }
+
+    //    protected int hp;
+    //    protected int maxHp;
+
+    //    public void TakeHit(int value)
+    //    {
+    //        if (hp - value > 0)
+    //        {
+    //            hp -= value;
+    //            Console.ForegroundColor = ConsoleColor.Red;
+    //            Console.WriteLine($"{name}이/가 {value}만큼의 데미지를 입습니다.");
+    //            Console.WriteLine($"{name}의 체력 : {hp}/{maxHp}");
+    //            Console.ResetColor();
+    //        }
+    //        else
+    //        {
+    //            hp = 0;
+    //            Console.ForegroundColor = ConsoleColor.Red;
+    //            Console.WriteLine($"{name}이/가 사망합니다.");
+    //            Console.ResetColor();
+    //        }
+    //    }
+    //}
+
+    //class Oak : Monster
+    //{
+    //    public Oak()
+    //    {
+    //        name = "오크";
+    //        maxHp = 100;
+    //        hp = maxHp;
+    //    }
+
+    //    public void Anger()
+    //    {
+    //        Console.ForegroundColor = ConsoleColor.Green;
+    //        Console.WriteLine($"{name}이 분노합니다.");
+    //        Console.ResetColor();
+    //    }
+    //}
+    //class Slime : Monster
+    //{
+    //    public Slime()
+    //    {
+    //        name = "슬라임";
+    //        maxHp = 50;
+    //        hp = maxHp;
+    //    }
+
+    //    public void Split()
+    //    {
+    //        Console.ForegroundColor = ConsoleColor.Cyan;
+    //        Console.WriteLine($"{name}이 분열합니다.");
+    //        Console.ResetColor();
+    //    }
+    //}
+
+    //class Dragon : Monster
+    //{
+    //    public Dragon()
+    //    {
+    //        name = "드래곤";
+    //        maxHp = 200;
+    //        hp = maxHp;
+    //    }
+
+    //    public void Breath()
+    //    {
+    //        Console.ForegroundColor = ConsoleColor.Magenta;
+    //        Console.WriteLine($"{name}이 불을 뿜습니다.");
+    //        Console.ResetColor();
+    //    }
+    //}
+
+    //enum ChampionType
+    //{
+    //    Warrior = 1,
+    //    Archer,
+    //    Wizard
+    //}
+
+    //class Champion
+    //{
+    //    private string name;       // 직업명
+
+    //    private int atk;    // 공격력
+    //    public int Atk { get { return atk; } }
+
+    //    public Champion(ChampionType champType)
+    //    {
+    //        switch (champType)
+    //        {
+    //            case ChampionType.Warrior:
+    //                atk = 10;
+    //                name = "전사";
+    //                break;
+    //            case ChampionType.Archer:
+    //                atk = 30;
+    //                name = "궁수";
+    //                break;
+    //            case ChampionType.Wizard:
+    //                atk = 50;
+    //                name = "마법사";
+    //                break;
+    //        }
+    //        Console.ForegroundColor = ConsoleColor.Blue;
+    //        Console.WriteLine($"{name}을/를 선택했습니다. 공격력:{atk}");
+    //        Console.ResetColor();
+    //    }
+
+    //    public void Attack(Monster trMonster)
+    //    {
+    //        Console.ForegroundColor = ConsoleColor.Blue;
+    //        Console.WriteLine($"{name}이/가 {trMonster.Name}을/를 {atk}의 데미지로 공격합니다.");
+    //        Console.ResetColor();
+    //        trMonster.TakeHit(atk);
+    //    }
+    //}
+
+    //class Program
+    //{
+    //    static void Main(string[] argc)
+    //    {
+    //        bool gameLoop = true;
+
+    //        Monster[] monsters = new Monster[3];
+    //        monsters[0] = new Oak();    // 다운캐스팅
+    //        monsters[1] = new Slime();
+    //        monsters[2] = new Dragon();
+
+    //        while (gameLoop)
+    //        {
+    //            Champion myChamp;
+
+    //            Console.WriteLine("직업을 선택하세요.");
+    //            Console.Write("(1:전사) (2:궁수) (3:마법사) (P:게임종료)");
+
+
+    //            ConsoleKeyInfo jobKey = Console.ReadKey();
+    //            while (jobKey.Key != ConsoleKey.D1 && jobKey.Key != ConsoleKey.D2 && jobKey.Key != ConsoleKey.D2 && jobKey.Key != ConsoleKey.P)
+    //            {
+    //                Console.WriteLine();
+    //                Console.WriteLine("잘못된 입력입니다. 다시 입력하세요");
+    //                Console.Write("(1:전사) (2:궁수) (3:마법사) (P:게임종료)");
+    //                jobKey = Console.ReadKey();
+    //            }
+    //            Console.WriteLine("\n");
+
+    //            switch (jobKey.Key)
+    //            {
+    //                case ConsoleKey.D1:
+    //                    myChamp = new Champion(ChampionType.Warrior);
+    //                    break;
+    //                case ConsoleKey.D2:
+    //                    myChamp = new Champion(ChampionType.Archer);
+    //                    break;
+    //                case ConsoleKey.D3:
+    //                    myChamp = new Champion(ChampionType.Wizard);
+    //                    break;
+    //                case ConsoleKey.P:
+    //                    return;
+    //                default:
+    //                    return;
+    //            }
+
+    //            Console.WriteLine();
+
+    //            Console.WriteLine("공격할 대상을 선택하세요.");
+    //            Console.Write("(1:오크) (2:슬라임) (3:드래곤) (P:게임종료)");
+
+    //            Console.WriteLine();
+
+    //            ConsoleKeyInfo targetKey = Console.ReadKey();
+    //            while (targetKey.Key != ConsoleKey.D1 && targetKey.Key != ConsoleKey.D2 && targetKey.Key != ConsoleKey.D2 && targetKey.Key != ConsoleKey.P)
+    //            {
+    //                Console.WriteLine("잘못된 입력입니다. 다시 입력하세요");
+    //                Console.Write("(1:오크) (2:슬라임) (3:드래곤) (P:게임종료)");
+    //                targetKey = Console.ReadKey();
+    //            }
+    //            Console.WriteLine();
+
+    //            switch (targetKey.Key)
+    //            {
+    //                case ConsoleKey.D1:
+    //                    myChamp.Attack(monsters[0]);
+    //                    break;
+    //                case ConsoleKey.D2:
+    //                    myChamp.Attack(monsters[1]);
+    //                    break;
+    //                case ConsoleKey.D3:
+    //                    myChamp.Attack(monsters[2]);
+    //                    break;
+    //                case ConsoleKey.P:
+    //                    return;
+    //            }
+    //            Console.WriteLine();
+    //            if (monsters[0] is Oak)
+    //            {
+    //                Oak tempOak = (Oak)monsters[0];
+    //                tempOak.Anger();
+    //            }
+
+    //            Console.WriteLine();
+
+    //            Slime tempSlime = monsters[1] as Slime;
+    //            tempSlime.Split();
+
+    //            Console.WriteLine();
+
+    //            Dragon tempDragon = (Dragon)monsters[2];
+    //            tempDragon.Breath();
+
+    //            Console.WriteLine();
+
+    //        }
+
+    //    }
+    //}
+
+
+    #endregion
+
+    #region OOP 과제 3 (제일 좋아하는 게임) 
+    // a. 객체 설계
+    // b. 캡슐화, 상속
+    enum Potential
     {
-        enum Direction
+        Shooting = 0,
+        Pass,
+        Tackle
+    }
+
+    class Match
+    {
+        // 경기를 관리하는 클래스
+
+        private Random randPlayerType;
+        private Random randPlayer;
+
+        private List<Striker> strikers;
+        private List<MidFielder> midFielders;
+        private List<Defender> defenders;
+
+        private int dayCount = 1;
+        public Match() 
         {
-            LEFT = 0,
-            RIGHT,
-            DOWN,
-            UP
+            randPlayerType = new Random();
+            randPlayer = new Random();
         }
 
-        public struct Pos
+        // 경기 진행
+        // 경기 종료
+        // 경기 결과
+
+        public void MatchSetting(Player[] players)
         {
-            public int x;
-            public int y;
-            public Pos(int x, int y)
+            strikers = new List<Striker>();    
+            midFielders = new List<MidFielder>();
+            defenders = new List<Defender>();
+
+            foreach (Player pr in players)
             {
-                this.x = x;
-                this.y = y;
-            }
-        }
-        public Random rand = new Random();
-        public bool[] used = new bool[26];
-        public int[,] myMap = new int[5, 5];
-        public Pos[] pos = new Pos[4] { new Pos(-1,0), new Pos(1,0), new Pos(0,1), new Pos(0,-1)};
-        public Pos curPos;
-        public void SettingMap()
-        {
-            for (int y = 0; y < 5; y++)
-            {
-                for(int x = 0; x < 5; x++)
+                if(pr is Striker)
                 {
-                    int num = rand.Next(0, 25);
-                    while (used[num])
-                    {
-                        num = rand.Next(0, 25);
-                    }
-                    used[num] = true;
-                    myMap[y, x] = num;
-                    if (myMap[y,x] == 0)
-                    {
-                        curPos = new Pos(x, y);
-                    }
+                    strikers.Add((Striker)pr);
+                }
+                else if(pr is MidFielder)
+                {
+                    midFielders.Add((MidFielder)pr);
+                }
+                else if(pr is Defender)
+                {
+                    defenders.Add((Defender)pr);
                 }
             }
         }
 
-        public void Render()
+        public void PlayMatch()
         {
-            Console.Clear();
-
-            Console.WriteLine("************************");
-            Console.WriteLine("  방향키를 입력하세요.  ");
-            Console.WriteLine("************************");
+            Console.WriteLine($"<매치데이 {dayCount} 일차>");
+            Console.WriteLine("\n오늘 경기의 선발명단 입니다!");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("공격수 : ");
+            Console.ResetColor();
+            foreach (Striker pr in strikers)
+            {
+                Console.Write($"{pr.Name} ");
+            }
             Console.WriteLine();
 
-
-
-            for (int y = 0; y < 5; y++)
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("미드필더 : ");
+            Console.ResetColor();
+            foreach (MidFielder pr in midFielders)
             {
-                Console.Write("   ");
-                for (int x = 0; x < 5; x++)
+                Console.Write($"{pr.Name} ");
+            }
+            Console.WriteLine();
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("수비수 : ");
+            Console.ResetColor();
+            foreach (Defender pr in defenders)
+            {
+                Console.Write($"{pr.Name} ");
+            }
+            Console.WriteLine();
+
+            Thread.Sleep(1000);
+            Console.WriteLine("경기 시작!\n");
+
+            int trySkill = 5;
+            while (trySkill > 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("경기 진행중.");
+                for (int i=0; i<5; i++)
                 {
-                    Console.Write(" ");
-                    if (myMap[y,x] == 0)
+                    Thread.Sleep(500);
+                    Console.Write(".");
+                }
+                Console.ResetColor();
+                Console.WriteLine();
+
+                int prType = 0;
+                int prLength = 0;
+                int prIndex = 0;
+
+                while(prLength == 0)
+                {
+                    prType = randPlayerType.Next(1,3);
+                    switch(prType)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        case 1:
+                            prLength = strikers.Count;
+                            break;
+                        case 2:
+                            prLength = midFielders.Count;
+                            break;
+                        case 3:
+                            prLength = defenders.Count;
+                            break;
                     }
-                    Console.Write($"{myMap[y, x]}");
-                    Console.ResetColor();
-                    if (myMap[y,x] < 10)
+                }
+
+                prIndex = randPlayerType.Next(0, prLength);
+                switch (prType)
+                {
+                    case 1:
+                        strikers[prIndex].PowerShoot();
+                        break;
+                    case 2:
+                        midFielders[prIndex].KillPass();
+                        break;
+                    case 3:
+                        defenders[prIndex].PerfectTackle();
+                        break;
+                }
+
+                trySkill--;
+            }
+
+            dayCount++;
+            Thread.Sleep(1500);
+            Console.Clear();
+        }
+    }
+    class Player
+    {
+        // 선수 데이터
+        // 1. 이름
+        // 2. 능력치   (레벨업 시 각 잠재력에 따라 증가수치가 상이)
+        //  a. 슈팅
+        //  b. 패스
+        //  c. 태클
+        // 3. 경험치
+        // 4. 자식
+        //  a. 포워드 : 슈팅
+        //  b. 미드필더 : 패스
+        //  c. 수비수 : 태클
+
+        protected string name;
+        public string Name { get { return name; } } // 읽기전용 데이터
+
+        protected Potential myPotential;
+
+        // 능력치
+        protected int shootingABT;    // 슈팅
+        public int ShootingABT { get { return ShootingABT; } }
+
+        protected int passABT;     // 패스
+        public int PassABT { get { return passABT; } }
+
+        protected int tackleABT;    // 태클
+        public int TackleABT { get { return tackleABT; } }
+
+
+        // 레벨업
+        public void LevelUp()
+        {
+            // 기본 능력치 증가
+            shootingABT += 2;
+            passABT += 2;
+            tackleABT += 2;
+
+            // 잠재력에 따른 능력치 증가
+            switch (myPotential)
+            {
+                case Potential.Shooting:
+                    shootingABT += 3;
+                    break;
+                case Potential.Pass:
+                    passABT += 3;
+                    break;
+                case Potential.Tackle:
+                    tackleABT += 3;
+                    break;
+                default:
+                    break;
+            }
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(name);
+            Console.ResetColor();
+            Console.WriteLine(" 레벨업에 따른 경험치가 갱신됩니다.");
+            Console.Write("슈팅:");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"{shootingABT}");
+            Console.ResetColor();
+            Console.Write("패스:");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"{passABT}");
+            Console.ResetColor();
+            Console.Write("태클:");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"{tackleABT}");
+            Console.ResetColor();
+
+            Thread.Sleep(3000);
+        }
+
+        // 능력치 출력
+        public void PrintAbility()
+        {
+            Console.WriteLine($"<{name}의 현재 능력치 정보>");
+            Console.Write("슈팅 : ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"{shootingABT}");
+            Console.ResetColor();
+            Console.Write("패스 : ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"{passABT}");
+            Console.ResetColor();
+            Console.Write("태클 : ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"{tackleABT}");
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+    }
+
+    class Striker : Player
+    {
+        public Striker(string name)
+        {
+            this.name = name;
+            myPotential = Potential.Shooting;
+            shootingABT = 8;
+            passABT = 5;
+            tackleABT = 3;
+        }
+        public void PowerShoot()
+        {
+            Console.WriteLine("***************************************");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(name);
+            Console.ResetColor();
+            Console.WriteLine("이/가 파워슛으로 골망을 가릅니다!");
+            Console.WriteLine("***************************************");
+            LevelUp();
+        }
+    }
+    class MidFielder : Player
+    {
+        public MidFielder(string name)
+        {
+            this.name = name;
+            myPotential = Potential.Pass;
+            shootingABT = 4;
+            passABT = 8;
+            tackleABT = 4;
+        }
+        public void KillPass()
+        {
+            Console.WriteLine("***************************************");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(name);
+            Console.ResetColor();
+            Console.WriteLine("이/가 킬패스로 어시스트를 성공합니다!");
+            Console.WriteLine("***************************************");
+            LevelUp();
+        }
+    }
+    class Defender : Player
+    {
+        public Defender(string name)
+        {
+            this.name = name;
+            myPotential = Potential.Tackle;
+            shootingABT = 3;
+            passABT = 5;
+            tackleABT = 8;
+        }
+
+        public void PerfectTackle()
+        {
+            Console.WriteLine("***************************************");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(name);
+            Console.ResetColor();
+            Console.WriteLine("이/가 깔끔한 태클을 성공합니다!");
+            Console.WriteLine("***************************************");
+            LevelUp();
+        }
+    }
+
+    class FCOnline
+    {
+        const int MaxPlayers = 8;
+        const int MaxTeamCapacity = 5;
+        private int LoopCount = 5;
+        private Player[] players;
+        private bool[] includingPlayers;
+        private Match match;
+
+
+        public FCOnline()
+        {
+            players = new Player[MaxPlayers];
+            includingPlayers = new bool[MaxPlayers] { false,false,false,false,false,false,false,false};   
+        }
+
+        private void RenderTitle()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("***************************************");
+            Console.ResetColor();
+            Console.WriteLine("***************************************");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("*******        FC 온라인        *******");
+            Console.ResetColor();
+            Console.WriteLine("***************************************");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("***************************************");
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+        public void InitGame()
+        {
+            players[0] = new Striker("호날두");
+            players[1] = new Striker("메시");
+            players[2] = new Striker("음바페");
+            players[3] = new MidFielder("이강인");
+            players[4] = new MidFielder("심재천");
+            players[5] = new MidFielder("김흥국");
+            players[6] = new Defender("김민재");
+            players[7] = new Defender("홍명보");
+            match = new Match();
+
+            Player[] team = new Player[MaxTeamCapacity];
+
+            int cnt = 0;
+            while(cnt < MaxTeamCapacity)
+            {
+                RenderTitle();
+
+                Console.Write("명단에 포함할 선수의 번호를 입력하세요.");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"({cnt}/{MaxTeamCapacity})");
+                Console.ResetColor();
+
+                for(int i=0; i<players.Length; i++)
+                {
+                    if (includingPlayers[i] == true)
                     {
-                        Console.Write(" ");
+                        Console.Write($"   ");
+                    }
+                    else
+                    {
+                        Console.Write($"{i + 1}:{players[i].Name} ");
                     }
                 }
                 Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
+                for (int i=0; i<team.Length; i++)
+                {
+                    if (team[i] == null) continue;
+                    Console.Write($"{team[i].Name} ");
+                }
+                Console.WriteLine();
+                Console.ResetColor();
+
+                int inputKey = int.Parse(Console.ReadLine());
+                if(inputKey < 1 || inputKey > 8)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("잘못된 입력입니다. 다시 입력하세요.");
+                    Console.ResetColor();
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    continue; 
+                }
+                else
+                {
+                    if (includingPlayers[inputKey-1] == true)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("이미 포함된 선수입니다. 다시 입력하세요.");
+                        Console.ResetColor();
+                        Thread.Sleep(1000);
+                        Console.Clear();
+                        continue;
+                    }
+                    includingPlayers[inputKey - 1] = true;
+                    team[cnt] = players[inputKey - 1];
+                    cnt++;
+                    Thread.Sleep(100);
+                    Console.Clear();
+                }
             }
+            Thread.Sleep(300);
+            match.MatchSetting(team);
         }
-        public void Input()
+        public void LoopGame()
         {
-            ConsoleKeyInfo key = Console.ReadKey();
-            Pos Npos= new Pos(0,0);
-            switch(key.Key)
+            while(LoopCount > 0)
             {
-                case ConsoleKey.LeftArrow:
-                    {
-                        Npos.y = curPos.y + pos[(int)Direction.LEFT].y;
-                        Npos.x = curPos.x + pos[(int)Direction.LEFT].x;
-                        break;
-                    }
-                    case ConsoleKey.RightArrow:
-                    {
-                        Npos.y = curPos.y + pos[(int)Direction.RIGHT].y;
-                        Npos.x = curPos.x + pos[(int)Direction.RIGHT].x;
-                        break;
-                    }
-                case ConsoleKey.UpArrow:
-                    {
-                        Npos.y = curPos.y + pos[(int)Direction.UP].y;
-                        Npos.x = curPos.x + pos[(int)Direction.UP].x;
-                        break;
-                    }
-                case ConsoleKey.DownArrow:
-                    {
-                        Npos.y = curPos.y + pos[(int)Direction.DOWN].y;
-                        Npos.x = curPos.x + pos[(int)Direction.DOWN].x;
-                        break;
-                    }
-                default:
-                    return;
+                RenderTitle();
+                match.PlayMatch();
+                LoopCount--;
             }
-            Move(Npos);
+
+            Console.ForegroundColor= ConsoleColor.Red;
+            Console.WriteLine("5초 뒤 게임이 종료됩니다.");
+            Console.ResetColor();
+            Thread.Sleep(5000);
         }
-        public void Move(Pos nextPos)
-        {
-            if (nextPos.x < 0 || nextPos.x >= 5 || nextPos.y < 0 || nextPos.y >= 5) return;
-            else
-            {
-                myMap[curPos.y, curPos.x] = myMap[nextPos.y, nextPos.x];
-                curPos = nextPos;
-                myMap[nextPos.y, nextPos.x] = 0;
-            }
-        }
+
         static void Main(string[] argc)
         {
-            Puzzle puzzle = new Puzzle();
-            puzzle.SettingMap();
-            while (true)
-            {
-                puzzle.Render();
-                puzzle.Input();
-            }
+            FCOnline fcOnline = new FCOnline();
+            fcOnline.InitGame();
+            fcOnline.LoopGame();
         }
     }
 
     #endregion
 
-    #region 테스트 코드
-    #endregion
+
+
 }

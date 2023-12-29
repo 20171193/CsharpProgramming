@@ -2067,6 +2067,7 @@ namespace ETC
     //}
     #endregion
 
+    #region OOP 과제 최종 : 리그오브레전드
     public enum ItemSlotNumber
     {
         NUM1 = 0,
@@ -2188,6 +2189,9 @@ namespace ETC
         // 스킬 사용
         public void CastingSkil(SkillSlotKey key)
         {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("스킬사용:");
+            Console.ResetColor();
             skills[(int)key].Execute(this);
         }
     }
@@ -2203,6 +2207,9 @@ namespace ETC
 
         public virtual void Execute(Champion owner)
         {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("스킬쿨타임:");
+            Console.ResetColor();
             Console.Write($"{skillName}스킬에 ");
             // 쿨타임 실행
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -2351,6 +2358,9 @@ namespace ETC
 
         public virtual void EquipedItem(Champion owner)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("아이템장착:");
+            Console.ResetColor();
             Console.WriteLine($"{name}을/를 장착합니다.");
         }
         public abstract void UseItem(Champion owner);
@@ -2386,6 +2396,9 @@ namespace ETC
 
         public override void UseItem(Champion owner)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("아이템사용:");
+            Console.ResetColor();
             Console.WriteLine($"체력 물약을 사용해 체력을 50회복합니다. (남은 개수:{--remain})");
             if (remain <= 0) owner.UnEquipItem((ItemSlotNumber)slotNumber);
 
@@ -2406,6 +2419,9 @@ namespace ETC
         }
         public override void UseItem(Champion owner)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("아이템사용:");
+            Console.ResetColor();
             Console.WriteLine($"수은 장식띠를 사용해 {owner.Name}의 상태이상을 제거합니다.");
         }
     }
@@ -2469,25 +2485,40 @@ namespace ETC
 
         public void RendeTitle()
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("**********************************************");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("**********************************************");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("**********************************");
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("**********************************");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("******** 리그 오브 레전드 ********");
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("**********************************");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("**********************************");
+            Console.WriteLine("************** 리그 오브 레전드 **************");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("**********************************************");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("**********************************************");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine();
+            Console.WriteLine($"      |    {user.MyChamp.Name}으로 플레이합니다.    |");
             Console.ResetColor();
-            Console.WriteLine($"************* <{user.MyChamp.Name}> *************");
+
             user.MyChamp.GetItemList();
 
-
-            Console.WriteLine();
-            Console.WriteLine("(스킬:Q,W,E,R) (현재정보:S) (게임종료:P)");
-            Console.WriteLine("(아이템장착:I) (아이템사용:1,2,3,4,5,6)");
-
+            Console.Write("| Skill ");
+            Console.ForegroundColor = ConsoleColor.Cyan;    // qwer s p i
+            Console.Write("Q W E R");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" | Item ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("I");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" | Info ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("S");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" | Quit ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("P");
+            Console.ResetColor();
+            Console.WriteLine(" |");
         }
         public void RenderNormalMenual()
         {
@@ -2497,6 +2528,10 @@ namespace ETC
             } while (user.MyKey != ConsoleKey.Q && user.MyKey != ConsoleKey.W && user.MyKey != ConsoleKey.E && user.MyKey != ConsoleKey.R
             && user.MyKey != ConsoleKey.S && user.MyKey != ConsoleKey.P && user.MyKey != ConsoleKey.I
             && user.MyKey != ConsoleKey.D1 && user.MyKey != ConsoleKey.D2 && user.MyKey != ConsoleKey.D3 && user.MyKey != ConsoleKey.D4 && user.MyKey != ConsoleKey.D5 && user.MyKey != ConsoleKey.D6);
+            Console.WriteLine();
+
+            Console.Clear();
+            RendeTitle();
 
             switch (user.MyKey)
             {
@@ -2552,7 +2587,22 @@ namespace ETC
         private void RenderItemList()
         {
             Console.WriteLine();
-            Console.WriteLine("(1:무한의대검) (2:체력물약) (3:수은장식띠)");
+            Console.WriteLine("장착할 아이템을 입력하세요.");
+            Console.Write("| 1 ");
+            Console.ForegroundColor = ConsoleColor.Yellow;    // qwer s p i
+            Console.Write("무한의 대검");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" | 2 ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("체력 포션");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" | 3 ");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("수은 장식띠");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" |");
+            Console.ResetColor();
+
             do
             {
                 user.InputKey();
@@ -2604,10 +2654,6 @@ namespace ETC
             Console.Clear();
             RendeTitle();
         }
-        private void RenderItemSlot()
-        {
-
-        }
 
 
         public void GameLoop()
@@ -2629,6 +2675,7 @@ namespace ETC
             lol.GameLoop();
         }
     }
+    #endregion
 
     //class Program
     //{

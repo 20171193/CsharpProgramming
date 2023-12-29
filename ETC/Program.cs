@@ -1632,442 +1632,1011 @@ namespace ETC
     #endregion
 
     #region OOP 과제 3 (제일 좋아하는 게임) 
-    // a. 객체 설계
-    // b. 캡슐화, 상속
-    enum Potential
+    //// a. 객체 설계
+    //// b. 캡슐화, 상속
+    //enum Potential
+    //{
+    //    Shooting = 0,
+    //    Pass,
+    //    Tackle
+    //}
+
+    //class Match
+    //{
+    //    // 경기를 관리하는 클래스
+
+    //    private Random randPlayerType;
+    //    private Random randPlayer;
+
+    //    private List<Striker> strikers;
+    //    private List<MidFielder> midFielders;
+    //    private List<Defender> defenders;
+
+    //    private int dayCount = 1;
+    //    public Match() 
+    //    {
+    //        randPlayerType = new Random();
+    //        randPlayer = new Random();
+    //    }
+
+    //    // 경기 진행
+    //    // 경기 종료
+    //    // 경기 결과
+
+    //    public void MatchSetting(Player[] players)
+    //    {
+    //        strikers = new List<Striker>();    
+    //        midFielders = new List<MidFielder>();
+    //        defenders = new List<Defender>();
+
+    //        foreach (Player pr in players)
+    //        {
+    //            if(pr is Striker)
+    //            {
+    //                strikers.Add((Striker)pr);
+    //            }
+    //            else if(pr is MidFielder)
+    //            {
+    //                midFielders.Add((MidFielder)pr);
+    //            }
+    //            else if(pr is Defender)
+    //            {
+    //                defenders.Add((Defender)pr);
+    //            }
+    //        }
+    //    }
+
+    //    public void PlayMatch()
+    //    {
+    //        Console.WriteLine($"<매치데이 {dayCount} 일차>");
+    //        Console.WriteLine("\n오늘 경기의 선발명단 입니다!");
+    //        Console.ForegroundColor = ConsoleColor.Red;
+    //        Console.Write("공격수 : ");
+    //        Console.ResetColor();
+    //        foreach (Striker pr in strikers)
+    //        {
+    //            Console.Write($"{pr.Name} ");
+    //        }
+    //        Console.WriteLine();
+
+    //        Console.ForegroundColor = ConsoleColor.Red;
+    //        Console.Write("미드필더 : ");
+    //        Console.ResetColor();
+    //        foreach (MidFielder pr in midFielders)
+    //        {
+    //            Console.Write($"{pr.Name} ");
+    //        }
+    //        Console.WriteLine();
+
+    //        Console.ForegroundColor = ConsoleColor.Red;
+    //        Console.Write("수비수 : ");
+    //        Console.ResetColor();
+    //        foreach (Defender pr in defenders)
+    //        {
+    //            Console.Write($"{pr.Name} ");
+    //        }
+    //        Console.WriteLine();
+
+    //        Thread.Sleep(1000);
+    //        Console.WriteLine("경기 시작!\n");
+
+    //        int trySkill = 5;
+    //        while (trySkill > 0)
+    //        {
+    //            Console.ForegroundColor = ConsoleColor.Cyan;
+    //            Console.Write("경기 진행중.");
+    //            for (int i=0; i<5; i++)
+    //            {
+    //                Thread.Sleep(500);
+    //                Console.Write(".");
+    //            }
+    //            Console.ResetColor();
+    //            Console.WriteLine();
+
+    //            int prType = 0;
+    //            int prLength = 0;
+    //            int prIndex = 0;
+
+    //            while(prLength == 0)
+    //            {
+    //                prType = randPlayerType.Next(1,3);
+    //                switch(prType)
+    //                {
+    //                    case 1:
+    //                        prLength = strikers.Count;
+    //                        break;
+    //                    case 2:
+    //                        prLength = midFielders.Count;
+    //                        break;
+    //                    case 3:
+    //                        prLength = defenders.Count;
+    //                        break;
+    //                }
+    //            }
+
+    //            prIndex = randPlayerType.Next(0, prLength);
+    //            switch (prType)
+    //            {
+    //                case 1:
+    //                    strikers[prIndex].PowerShoot();
+    //                    break;
+    //                case 2:
+    //                    midFielders[prIndex].KillPass();
+    //                    break;
+    //                case 3:
+    //                    defenders[prIndex].PerfectTackle();
+    //                    break;
+    //            }
+
+    //            trySkill--;
+    //        }
+
+    //        dayCount++;
+    //        Thread.Sleep(1500);
+    //        Console.Clear();
+    //    }
+    //}
+    //class Player
+    //{
+    //    // 선수 데이터
+    //    // 1. 이름
+    //    // 2. 능력치   (레벨업 시 각 잠재력에 따라 증가수치가 상이)
+    //    //  a. 슈팅
+    //    //  b. 패스
+    //    //  c. 태클
+    //    // 3. 경험치
+    //    // 4. 자식
+    //    //  a. 포워드 : 슈팅
+    //    //  b. 미드필더 : 패스
+    //    //  c. 수비수 : 태클
+
+    //    protected string name;
+    //    public string Name { get { return name; } } // 읽기전용 데이터
+
+    //    protected Potential myPotential;
+
+    //    // 능력치
+    //    protected int shootingABT;    // 슈팅
+    //    public int ShootingABT { get { return ShootingABT; } }
+
+    //    protected int passABT;     // 패스
+    //    public int PassABT { get { return passABT; } }
+
+    //    protected int tackleABT;    // 태클
+    //    public int TackleABT { get { return tackleABT; } }
+
+
+    //    // 레벨업
+    //    public void LevelUp()
+    //    {
+    //        // 기본 능력치 증가
+    //        shootingABT += 2;
+    //        passABT += 2;
+    //        tackleABT += 2;
+
+    //        // 잠재력에 따른 능력치 증가
+    //        switch (myPotential)
+    //        {
+    //            case Potential.Shooting:
+    //                shootingABT += 3;
+    //                break;
+    //            case Potential.Pass:
+    //                passABT += 3;
+    //                break;
+    //            case Potential.Tackle:
+    //                tackleABT += 3;
+    //                break;
+    //            default:
+    //                break;
+    //        }
+
+    //        Console.WriteLine();
+    //        Console.ForegroundColor = ConsoleColor.Green;
+    //        Console.Write(name);
+    //        Console.ResetColor();
+    //        Console.WriteLine(" 레벨업에 따른 경험치가 갱신됩니다.");
+    //        Console.Write("슈팅:");
+    //        Console.ForegroundColor = ConsoleColor.Red;
+    //        Console.WriteLine($"{shootingABT}");
+    //        Console.ResetColor();
+    //        Console.Write("패스:");
+    //        Console.ForegroundColor = ConsoleColor.Red;
+    //        Console.WriteLine($"{passABT}");
+    //        Console.ResetColor();
+    //        Console.Write("태클:");
+    //        Console.ForegroundColor = ConsoleColor.Red;
+    //        Console.WriteLine($"{tackleABT}");
+    //        Console.ResetColor();
+
+    //        Thread.Sleep(3000);
+    //    }
+
+    //    // 능력치 출력
+    //    public void PrintAbility()
+    //    {
+    //        Console.WriteLine($"<{name}의 현재 능력치 정보>");
+    //        Console.Write("슈팅 : ");
+    //        Console.ForegroundColor = ConsoleColor.Red;
+    //        Console.WriteLine($"{shootingABT}");
+    //        Console.ResetColor();
+    //        Console.Write("패스 : ");
+    //        Console.ForegroundColor = ConsoleColor.Red;
+    //        Console.WriteLine($"{passABT}");
+    //        Console.ResetColor();
+    //        Console.Write("태클 : ");
+    //        Console.ForegroundColor = ConsoleColor.Red;
+    //        Console.WriteLine($"{tackleABT}");
+    //        Console.ResetColor();
+    //        Console.WriteLine();
+    //    }
+    //}
+
+    //class Striker : Player
+    //{
+    //    public Striker(string name)
+    //    {
+    //        this.name = name;
+    //        myPotential = Potential.Shooting;
+    //        shootingABT = 8;
+    //        passABT = 5;
+    //        tackleABT = 3;
+    //    }
+    //    public void PowerShoot()
+    //    {
+    //        Console.WriteLine("***************************************");
+    //        Console.ForegroundColor = ConsoleColor.Green;
+    //        Console.Write(name);
+    //        Console.ResetColor();
+    //        Console.WriteLine("이/가 파워슛으로 골망을 가릅니다!");
+    //        Console.WriteLine("***************************************");
+    //        LevelUp();
+    //    }
+    //}
+    //class MidFielder : Player
+    //{
+    //    public MidFielder(string name)
+    //    {
+    //        this.name = name;
+    //        myPotential = Potential.Pass;
+    //        shootingABT = 4;
+    //        passABT = 8;
+    //        tackleABT = 4;
+    //    }
+    //    public void KillPass()
+    //    {
+    //        Console.WriteLine("***************************************");
+    //        Console.ForegroundColor = ConsoleColor.Green;
+    //        Console.Write(name);
+    //        Console.ResetColor();
+    //        Console.WriteLine("이/가 킬패스로 어시스트를 성공합니다!");
+    //        Console.WriteLine("***************************************");
+    //        LevelUp();
+    //    }
+    //}
+    //class Defender : Player
+    //{
+    //    public Defender(string name)
+    //    {
+    //        this.name = name;
+    //        myPotential = Potential.Tackle;
+    //        shootingABT = 3;
+    //        passABT = 5;
+    //        tackleABT = 8;
+    //    }
+
+    //    public void PerfectTackle()
+    //    {
+    //        Console.WriteLine("***************************************");
+    //        Console.ForegroundColor = ConsoleColor.Green;
+    //        Console.Write(name);
+    //        Console.ResetColor();
+    //        Console.WriteLine("이/가 깔끔한 태클을 성공합니다!");
+    //        Console.WriteLine("***************************************");
+    //        LevelUp();
+    //    }
+    //}
+
+    //class FCOnline
+    //{
+    //    const int MaxPlayers = 8;
+    //    const int MaxTeamCapacity = 5;
+    //    private int LoopCount = 5;
+    //    private Player[] players;
+    //    private bool[] includingPlayers;
+    //    private Match match;
+
+
+    //    public FCOnline()
+    //    {
+    //        players = new Player[MaxPlayers];
+    //        includingPlayers = new bool[MaxPlayers] { false,false,false,false,false,false,false,false};   
+    //    }
+
+    //    private void RenderTitle()
+    //    {
+    //        Console.ForegroundColor = ConsoleColor.Green;
+    //        Console.WriteLine("***************************************");
+    //        Console.ResetColor();
+    //        Console.WriteLine("***************************************");
+    //        Console.ForegroundColor = ConsoleColor.Yellow;
+    //        Console.WriteLine("*******        FC 온라인        *******");
+    //        Console.ResetColor();
+    //        Console.WriteLine("***************************************");
+    //        Console.ForegroundColor = ConsoleColor.Green;
+    //        Console.WriteLine("***************************************");
+    //        Console.ResetColor();
+    //        Console.WriteLine();
+    //    }
+    //    public void InitGame()
+    //    {
+    //        players[0] = new Striker("호날두");
+    //        players[1] = new Striker("메시");
+    //        players[2] = new Striker("음바페");
+    //        players[3] = new MidFielder("이강인");
+    //        players[4] = new MidFielder("심재천");
+    //        players[5] = new MidFielder("김흥국");
+    //        players[6] = new Defender("김민재");
+    //        players[7] = new Defender("홍명보");
+    //        match = new Match();
+
+    //        Player[] team = new Player[MaxTeamCapacity];
+
+    //        int cnt = 0;
+    //        while(cnt < MaxTeamCapacity)
+    //        {
+    //            RenderTitle();
+
+    //            Console.Write("명단에 포함할 선수의 번호를 입력하세요.");
+    //            Console.ForegroundColor = ConsoleColor.Green;
+    //            Console.WriteLine($"({cnt}/{MaxTeamCapacity})");
+    //            Console.ResetColor();
+
+    //            for(int i=0; i<players.Length; i++)
+    //            {
+    //                if (includingPlayers[i] == true)
+    //                {
+    //                    Console.Write($"   ");
+    //                }
+    //                else
+    //                {
+    //                    Console.Write($"{i + 1}:{players[i].Name} ");
+    //                }
+    //            }
+    //            Console.WriteLine();
+    //            Console.ForegroundColor = ConsoleColor.Green;
+    //            for (int i=0; i<team.Length; i++)
+    //            {
+    //                if (team[i] == null) continue;
+    //                Console.Write($"{team[i].Name} ");
+    //            }
+    //            Console.WriteLine();
+    //            Console.ResetColor();
+
+    //            int inputKey = int.Parse(Console.ReadLine());
+    //            if(inputKey < 1 || inputKey > 8)
+    //            {
+    //                Console.ForegroundColor = ConsoleColor.Red;
+    //                Console.WriteLine("잘못된 입력입니다. 다시 입력하세요.");
+    //                Console.ResetColor();
+    //                Thread.Sleep(1000);
+    //                Console.Clear();
+    //                continue; 
+    //            }
+    //            else
+    //            {
+    //                if (includingPlayers[inputKey-1] == true)
+    //                {
+    //                    Console.ForegroundColor = ConsoleColor.Red;
+    //                    Console.WriteLine("이미 포함된 선수입니다. 다시 입력하세요.");
+    //                    Console.ResetColor();
+    //                    Thread.Sleep(1000);
+    //                    Console.Clear();
+    //                    continue;
+    //                }
+    //                includingPlayers[inputKey - 1] = true;
+    //                team[cnt] = players[inputKey - 1];
+    //                cnt++;
+    //                Thread.Sleep(100);
+    //                Console.Clear();
+    //            }
+    //        }
+    //        Thread.Sleep(300);
+    //        match.MatchSetting(team);
+    //    }
+    //    public void LoopGame()
+    //    {
+    //        while(LoopCount > 0)
+    //        {
+    //            RenderTitle();
+    //            match.PlayMatch();
+    //            LoopCount--;
+    //        }
+
+    //        Console.ForegroundColor= ConsoleColor.Red;
+    //        Console.WriteLine("5초 뒤 게임이 종료됩니다.");
+    //        Console.ResetColor();
+    //        Thread.Sleep(5000);
+    //    }
+
+    //    static void Main(string[] argc)
+    //    {
+    //        FCOnline fcOnline = new FCOnline();
+    //        fcOnline.InitGame();
+    //        fcOnline.LoopGame();
+    //    }
+    //}
+    #endregion
+
+    public enum ItemSlotNumber
     {
-        Shooting = 0,
-        Pass,
-        Tackle
+        NUM1 = 0,
+        NUM2,
+        NUM3,
+        NUM4,
+        NUM5,
+        NUM6,
+    }
+    public enum ItemType
+    {
+        Expendable = 0, // 사용가능한 소모성 아이템
+        Useable,        // 사용가능한 비소모성 아이템
+        UnUseable       // 사용이 불가능한 아이템
+    }
+    public enum SkillSlotKey
+    {
+        Qskill = 0,
+        Wskill,
+        Eskill,
+        Rskill
     }
 
-    class Match
+    public interface InputHandler
     {
-        // 경기를 관리하는 클래스
+        public void InputKey();
+        public void InputString();
+    }
 
-        private Random randPlayerType;
-        private Random randPlayer;
+    class Champion
+    {
+        const int MaxItem = 6;
+        const int MaxSkill = 4;
 
-        private List<Striker> strikers;
-        private List<MidFielder> midFielders;
-        private List<Defender> defenders;
+        // 챔피언 정보
+        protected string name;  //이름
+        public string Name { get { return name; } }
 
-        private int dayCount = 1;
-        public Match() 
+        protected int hp;   // 체력
+        public int HP { get { return hp; } }
+
+        protected int speed;    // 이동속도
+        public int Speed { get { return speed; } }
+
+        private Item[] items = new Item[MaxItem]; // 아이템슬롯 배열 (0~5번 슬롯 (1~6에 대칭))
+        public Item[] Items { get { return items; } }
+
+
+        private Skill[] skills = new Skill[MaxSkill];   // 스킬슬롯 배열 (0:q 1:w 2:e 3:r)
+        public Skill[] Skills { get { return skills; } }
+
+        public void GetChampionInfo()
         {
-            randPlayerType = new Random();
-            randPlayer = new Random();
+            Console.WriteLine("************************");
+            Console.WriteLine($"** <{name}> 챔피언 정보 **");
+            Console.WriteLine("************************\n");
+
+            Console.WriteLine($"이동속도 : {speed}");
+            Console.WriteLine($"    체력 : {hp}");
+            Console.WriteLine();
         }
-
-        // 경기 진행
-        // 경기 종료
-        // 경기 결과
-
-        public void MatchSetting(Player[] players)
+        public void GetItemList()
         {
-            strikers = new List<Striker>();    
-            midFielders = new List<MidFielder>();
-            defenders = new List<Defender>();
-
-            foreach (Player pr in players)
+            for (int i = 0; i < items.Length; i++)
             {
-                if(pr is Striker)
-                {
-                    strikers.Add((Striker)pr);
-                }
-                else if(pr is MidFielder)
-                {
-                    midFielders.Add((MidFielder)pr);
-                }
-                else if(pr is Defender)
-                {
-                    defenders.Add((Defender)pr);
-                }
-            }
-        }
-
-        public void PlayMatch()
-        {
-            Console.WriteLine($"<매치데이 {dayCount} 일차>");
-            Console.WriteLine("\n오늘 경기의 선발명단 입니다!");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("공격수 : ");
-            Console.ResetColor();
-            foreach (Striker pr in strikers)
-            {
-                Console.Write($"{pr.Name} ");
-            }
-            Console.WriteLine();
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("미드필더 : ");
-            Console.ResetColor();
-            foreach (MidFielder pr in midFielders)
-            {
-                Console.Write($"{pr.Name} ");
-            }
-            Console.WriteLine();
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("수비수 : ");
-            Console.ResetColor();
-            foreach (Defender pr in defenders)
-            {
-                Console.Write($"{pr.Name} ");
-            }
-            Console.WriteLine();
-
-            Thread.Sleep(1000);
-            Console.WriteLine("경기 시작!\n");
-
-            int trySkill = 5;
-            while (trySkill > 0)
-            {
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.Write("경기 진행중.");
-                for (int i=0; i<5; i++)
-                {
-                    Thread.Sleep(500);
-                    Console.Write(".");
-                }
+                if (items[i] == null) continue;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write($"{i + 1}:{items[i].Name} ");
                 Console.ResetColor();
-                Console.WriteLine();
-
-                int prType = 0;
-                int prLength = 0;
-                int prIndex = 0;
-
-                while(prLength == 0)
+                if (i == 2)
                 {
-                    prType = randPlayerType.Next(1,3);
-                    switch(prType)
-                    {
-                        case 1:
-                            prLength = strikers.Count;
-                            break;
-                        case 2:
-                            prLength = midFielders.Count;
-                            break;
-                        case 3:
-                            prLength = defenders.Count;
-                            break;
-                    }
+                    Console.WriteLine();
                 }
-
-                prIndex = randPlayerType.Next(0, prLength);
-                switch (prType)
-                {
-                    case 1:
-                        strikers[prIndex].PowerShoot();
-                        break;
-                    case 2:
-                        midFielders[prIndex].KillPass();
-                        break;
-                    case 3:
-                        defenders[prIndex].PerfectTackle();
-                        break;
-                }
-
-                trySkill--;
             }
+            Console.WriteLine();
+        }
 
-            dayCount++;
-            Thread.Sleep(1500);
-            Console.Clear();
+        // 아이템 장착
+        public void EquipItem(Item item, ItemSlotNumber num)
+        {
+            if (items[(int)num] == null)     // 빈 슬롯일 경우
+            {
+                item.slotNumber = (int)num;
+                items[(int)num] = item; //장착
+                items[(int)num].EquipedItem(this);
+            }
+            else
+            {
+                UnEquipItem(num);
+                item.slotNumber = (int)num;
+                items[(int)num] = item; //장착
+            }
+        }
+        // 아이템 장착해제
+        public void UnEquipItem(ItemSlotNumber num)
+        {
+            items[(int)num] = null;
+        }
+        // 아이템 사용
+        public void UsingItem(ItemSlotNumber num)
+        {
+            if (items[(int)num] == null)
+            {
+                Console.WriteLine("아이템이 존재하지 않습니다.\n");
+            }
+            else
+            {
+                items[(int)num].UseItem(this);
+            }
+        }
+        
+
+        // 스킬 할당
+        protected void SetSkill(Skill skill, SkillSlotKey key)
+        {
+            skills[(int)key] = skill;
+        }
+
+        // 스킬 사용
+        public void CastingSkil(SkillSlotKey key)
+        {
+            skills[(int)key].Execute(this);
         }
     }
-    class Player
+
+    #region 스킬
+    class Skill
     {
-        // 선수 데이터
-        // 1. 이름
-        // 2. 능력치   (레벨업 시 각 잠재력에 따라 증가수치가 상이)
-        //  a. 슈팅
-        //  b. 패스
-        //  c. 태클
-        // 3. 경험치
-        // 4. 자식
-        //  a. 포워드 : 슈팅
-        //  b. 미드필더 : 패스
-        //  c. 수비수 : 태클
+        protected string skillName;
+        public int SkillName { get { return SkillName; } }
 
-        protected string name;
-        public string Name { get { return name; } } // 읽기전용 데이터
+        protected int skillCoolTime;    // 스킬 쿨타임
+        public int SkillCoolTime { get { return skillCoolTime; } }
 
-        protected Potential myPotential;
-
-        // 능력치
-        protected int shootingABT;    // 슈팅
-        public int ShootingABT { get { return ShootingABT; } }
-
-        protected int passABT;     // 패스
-        public int PassABT { get { return passABT; } }
-
-        protected int tackleABT;    // 태클
-        public int TackleABT { get { return tackleABT; } }
-
-
-        // 레벨업
-        public void LevelUp()
+        public virtual void Execute(Champion owner)
         {
-            // 기본 능력치 증가
-            shootingABT += 2;
-            passABT += 2;
-            tackleABT += 2;
+            Console.Write($"{skillName}스킬에 ");
+            // 쿨타임 실행
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write($"{skillCoolTime}초");
+            Console.ResetColor();
+            Console.WriteLine("의 쿨타임이 적용됩니다.");
+        }
+    }
 
-            // 잠재력에 따른 능력치 증가
-            switch (myPotential)
+    class SonicWaveAndResonatingStrike : Skill     // 리신 q 음파/공명의 일격
+    {
+        enum SkillType
+        {
+            SONIC_WAVE = 0,
+            RESONATING_STRIKE
+        }
+
+        private SkillType nextSkillType;
+
+        private string skillName2;
+
+        public SonicWaveAndResonatingStrike()
+        {
+            skillName = "음파";
+            skillName2 = "공명의 일격";
+            skillCoolTime = 5;
+            nextSkillType = SkillType.SONIC_WAVE;
+        }
+
+        public override void Execute(Champion owner)
+        {
+            Console.Write($"{owner.Name}이");
+            switch (nextSkillType)
             {
-                case Potential.Shooting:
-                    shootingABT += 3;
+                case SkillType.SONIC_WAVE:
+                    SonicWave();
                     break;
-                case Potential.Pass:
-                    passABT += 3;
-                    break;
-                case Potential.Tackle:
-                    tackleABT += 3;
+                case SkillType.RESONATING_STRIKE:
+                    ResonatingStrike();
                     break;
                 default:
+                    Console.WriteLine("SonicWaveAndResonatingStrike 실행 오류");
+                    break;
+            }
+            if (nextSkillType == SkillType.SONIC_WAVE)   // 공명의 일격이 실행되었으면
+                                                         // 음파 쿨타임진행
+            {
+                base.Execute(owner);
+            }
+        }
+
+        public void LoadingCoolTime(Champion owner)
+        {
+            nextSkillType = SkillType.SONIC_WAVE;
+            base.Execute(owner);
+        }
+
+
+        private void SonicWave()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write(skillName);
+            Console.ResetColor();
+
+            Console.WriteLine("를 사용해 적을 시야에 노출시킵니다.");
+            nextSkillType = SkillType.RESONATING_STRIKE;
+        }
+
+        // 공명의 일격 사용 후 쿨타임 진행.
+        private void ResonatingStrike()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write(skillName2);
+            Console.ResetColor();
+
+            Console.WriteLine("으로 음파에 맞은 적을 추격 후 공격합니다.");
+            nextSkillType = SkillType.SONIC_WAVE;
+        }
+    }
+    class SafeGuard : Skill // 리신 w 방호 (체력회복으로 대체)
+    {
+        public SafeGuard()
+        {
+            skillName = "방호";
+            skillCoolTime = 8;
+        }
+
+        public override void Execute(Champion owner)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write(skillName);
+            Console.ResetColor();
+
+            Console.WriteLine("를 사용해 쉴드를 얻습니다.");
+            base.Execute(owner);
+        }
+    }
+    class Tempest : Skill   // 리신 e 폭풍
+    {
+        public Tempest()
+        {
+            skillName = "폭풍";
+            skillCoolTime = 3;
+        }
+
+        public override void Execute(Champion owner)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write(skillName);
+            Console.ResetColor();
+
+            Console.WriteLine("을 사용해 주변의 적들을 무력화 시킵니다.");
+            base.Execute(owner);
+        }
+    }
+    class DragonsRage : Skill   // 리신 r 용의 분노
+    {
+        public DragonsRage()
+        {
+            skillName = "용의 분노";
+            skillCoolTime = 10;
+        }
+
+        public override void Execute(Champion owner)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write(skillName);
+            Console.ResetColor();
+
+            Console.WriteLine("를 사용해 적을 날려버립니다.");
+            base.Execute(owner);
+        }
+    }
+    #endregion
+
+
+    #region 아이템
+    abstract class Item
+    {
+        protected string name;  // 아이템명
+        public string Name { get { return name; } }
+
+        public int slotNumber;   // 아이템이 위치한 슬롯의 번호
+
+        protected ItemType itemType;    // 아이템 타입
+
+        public virtual void EquipedItem(Champion owner)
+        {
+            Console.WriteLine($"{name}을/를 장착합니다.");
+        }
+        public abstract void UseItem(Champion owner);
+    }
+    class InfinityEdge : Item   // 무한의 대검
+    {
+        public InfinityEdge()
+        {
+            name = "무한의 대검";
+            itemType = ItemType.UnUseable;
+        }
+
+        public override void EquipedItem(Champion owner)
+        {
+            base.EquipedItem(owner);
+            Console.WriteLine($"{owner.Name}의 공격력이 대폭 증가합니다.");
+        }
+        public override void UseItem(Champion owner)
+        {
+
+        }
+    }
+    class HpPotion : Item       // 체력 물약
+    {
+        private int remain;
+
+        public HpPotion()
+        {
+            name = "체력 물약";
+            itemType = ItemType.Expendable;
+            remain = 3;
+        }
+
+        public override void UseItem(Champion owner)
+        {
+            Console.WriteLine($"체력 물약을 사용해 체력을 50회복합니다. (남은 개수:{--remain})");
+            if (remain <= 0) owner.UnEquipItem((ItemSlotNumber)slotNumber);
+
+        }
+    }
+    class QuicksilverSash : Item        // 수은 장식띠 
+    {
+        public QuicksilverSash()
+        {
+            name = "수은 장식띠";
+            itemType = ItemType.Useable;
+        }
+
+        public override void EquipedItem(Champion owner)
+        {
+            base.EquipedItem(owner);
+            Console.WriteLine($"{owner.Name}의 마법저항력이 증가합니다.");
+        }
+        public override void UseItem(Champion owner)
+        {
+            Console.WriteLine($"수은 장식띠를 사용해 {owner.Name}의 상태이상을 제거합니다.");
+        }
+    }
+    #endregion
+
+    class User : InputHandler
+    {
+        // 사용자 입력관련 
+        ConsoleKey myKey;
+        public ConsoleKey MyKey { get { return myKey; } }
+
+        string myString;
+        public string MyString { get { return myString; } }
+
+        private Champion myChamp;
+        public Champion MyChamp { get { return myChamp; } }
+
+        public User()
+        {
+            myChamp = new LeeSin();
+        }
+
+        public void InputKey()
+        {
+            myKey = Console.ReadKey().Key;
+        }
+        public void InputString()
+        {
+            myString = Console.ReadLine();
+        }
+    }
+
+    // 리신
+    // 챔피언상속
+    class LeeSin : Champion
+    {
+        public LeeSin()
+        {
+            name = "리신";
+            hp = 100;
+            speed = 325;
+
+            SetSkill(new SonicWaveAndResonatingStrike(), SkillSlotKey.Qskill);
+            SetSkill(new SafeGuard(), SkillSlotKey.Wskill);
+            SetSkill(new Tempest(), SkillSlotKey.Eskill);
+            SetSkill(new DragonsRage(), SkillSlotKey.Rskill);
+        }
+    }
+
+
+
+    class LeagueOfLegend
+    {
+        private User user;
+        private bool gameLoop = true;
+
+        public LeagueOfLegend()
+        {
+            user = new User();
+        }
+
+        public void RendeTitle()
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("**********************************");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("**********************************");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("******** 리그 오브 레전드 ********");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("**********************************");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("**********************************");
+            Console.ResetColor();
+            Console.WriteLine($"************* <{user.MyChamp.Name}> *************");
+            user.MyChamp.GetItemList();
+
+
+            Console.WriteLine();
+            Console.WriteLine("(스킬:Q,W,E,R) (현재정보:S) (게임종료:P)");
+            Console.WriteLine("(아이템장착:I) (아이템사용:1,2,3,4,5,6)");
+
+        }
+        public void RenderNormalMenual()
+        {
+            do
+            {
+                user.InputKey();
+            } while (user.MyKey != ConsoleKey.Q && user.MyKey != ConsoleKey.W && user.MyKey != ConsoleKey.E && user.MyKey != ConsoleKey.R
+            && user.MyKey != ConsoleKey.S && user.MyKey != ConsoleKey.P && user.MyKey != ConsoleKey.I
+            && user.MyKey != ConsoleKey.D1 && user.MyKey != ConsoleKey.D2 && user.MyKey != ConsoleKey.D3 && user.MyKey != ConsoleKey.D4 && user.MyKey != ConsoleKey.D5 && user.MyKey != ConsoleKey.D6);
+
+            switch (user.MyKey)
+            {
+                // 스킬
+                case ConsoleKey.Q:
+                    user.MyChamp.CastingSkil(SkillSlotKey.Qskill);
+                    break;
+                case ConsoleKey.W:
+                    user.MyChamp.CastingSkil(SkillSlotKey.Wskill);
+                    break;
+                case ConsoleKey.E:
+                    user.MyChamp.CastingSkil(SkillSlotKey.Eskill);
+                    break;
+                case ConsoleKey.R:
+                    user.MyChamp.CastingSkil(SkillSlotKey.Rskill);
+                    break;
+
+                // 현재 정보 출력
+                case ConsoleKey.S:
+                    user.MyChamp.GetChampionInfo();
+                    break;
+                
+                // 아이템 장착 메뉴얼
+                case ConsoleKey.I:
+                    RenderItemList();
+                    return;
+
+                // 아이템 사용
+                case ConsoleKey.D1:
+                    user.MyChamp.UsingItem(ItemSlotNumber.NUM1);
+                    break;
+                case ConsoleKey.D2:
+                    user.MyChamp.UsingItem(ItemSlotNumber.NUM2);
+                    break;
+                case ConsoleKey.D3:
+                    user.MyChamp.UsingItem(ItemSlotNumber.NUM3);
+                    break;
+                case ConsoleKey.D4:
+                    user.MyChamp.UsingItem(ItemSlotNumber.NUM4);
+                    break;
+                case ConsoleKey.D5:
+                    user.MyChamp.UsingItem(ItemSlotNumber.NUM5);
+                    break;
+                case ConsoleKey.D6:
+                    user.MyChamp.UsingItem(ItemSlotNumber.NUM6);
+                    break;
+                case ConsoleKey.P:
+                    gameLoop = false;
+                    return;
+
+            }
+        }
+        private void RenderItemList()
+        {
+            Console.WriteLine();
+            Console.WriteLine("(1:무한의대검) (2:체력물약) (3:수은장식띠)");
+            do
+            {
+                user.InputKey();
+            } while (user.MyKey != ConsoleKey.D1 && user.MyKey != ConsoleKey.D2 && user.MyKey != ConsoleKey.D3);
+            Console.WriteLine();
+            Console.WriteLine("(장착할 아이템슬롯 : 1 ~ 6)");
+            int slotNumber = -1;
+            ConsoleKey numKey; 
+            do
+            {
+                numKey = Console.ReadKey().Key;
+            } while (numKey != ConsoleKey.D1 && numKey != ConsoleKey.D2 && numKey != ConsoleKey.D3 && numKey != ConsoleKey.D4 && numKey != ConsoleKey.D5 && numKey != ConsoleKey.D6);
+            Console.WriteLine();
+            switch(numKey)
+            {
+                case ConsoleKey.D1:
+                    slotNumber = 0;
+                    break;
+                case ConsoleKey.D2:
+                    slotNumber = 1;
+                    break;
+                case ConsoleKey.D3:
+                    slotNumber = 2;
+                    break;
+                case ConsoleKey.D4:
+                    slotNumber = 3;
+                    break;
+                case ConsoleKey.D5:
+                    slotNumber = 4;
+                    break;
+                case ConsoleKey.D6:
+                    slotNumber = 5;
                     break;
             }
 
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(name);
-            Console.ResetColor();
-            Console.WriteLine(" 레벨업에 따른 경험치가 갱신됩니다.");
-            Console.Write("슈팅:");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"{shootingABT}");
-            Console.ResetColor();
-            Console.Write("패스:");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"{passABT}");
-            Console.ResetColor();
-            Console.Write("태클:");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"{tackleABT}");
-            Console.ResetColor();
-
-            Thread.Sleep(3000);
-        }
-
-        // 능력치 출력
-        public void PrintAbility()
-        {
-            Console.WriteLine($"<{name}의 현재 능력치 정보>");
-            Console.Write("슈팅 : ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"{shootingABT}");
-            Console.ResetColor();
-            Console.Write("패스 : ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"{passABT}");
-            Console.ResetColor();
-            Console.Write("태클 : ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"{tackleABT}");
-            Console.ResetColor();
-            Console.WriteLine();
-        }
-    }
-
-    class Striker : Player
-    {
-        public Striker(string name)
-        {
-            this.name = name;
-            myPotential = Potential.Shooting;
-            shootingABT = 8;
-            passABT = 5;
-            tackleABT = 3;
-        }
-        public void PowerShoot()
-        {
-            Console.WriteLine("***************************************");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(name);
-            Console.ResetColor();
-            Console.WriteLine("이/가 파워슛으로 골망을 가릅니다!");
-            Console.WriteLine("***************************************");
-            LevelUp();
-        }
-    }
-    class MidFielder : Player
-    {
-        public MidFielder(string name)
-        {
-            this.name = name;
-            myPotential = Potential.Pass;
-            shootingABT = 4;
-            passABT = 8;
-            tackleABT = 4;
-        }
-        public void KillPass()
-        {
-            Console.WriteLine("***************************************");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(name);
-            Console.ResetColor();
-            Console.WriteLine("이/가 킬패스로 어시스트를 성공합니다!");
-            Console.WriteLine("***************************************");
-            LevelUp();
-        }
-    }
-    class Defender : Player
-    {
-        public Defender(string name)
-        {
-            this.name = name;
-            myPotential = Potential.Tackle;
-            shootingABT = 3;
-            passABT = 5;
-            tackleABT = 8;
-        }
-
-        public void PerfectTackle()
-        {
-            Console.WriteLine("***************************************");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(name);
-            Console.ResetColor();
-            Console.WriteLine("이/가 깔끔한 태클을 성공합니다!");
-            Console.WriteLine("***************************************");
-            LevelUp();
-        }
-    }
-
-    class FCOnline
-    {
-        const int MaxPlayers = 8;
-        const int MaxTeamCapacity = 5;
-        private int LoopCount = 5;
-        private Player[] players;
-        private bool[] includingPlayers;
-        private Match match;
-
-
-        public FCOnline()
-        {
-            players = new Player[MaxPlayers];
-            includingPlayers = new bool[MaxPlayers] { false,false,false,false,false,false,false,false};   
-        }
-
-        private void RenderTitle()
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("***************************************");
-            Console.ResetColor();
-            Console.WriteLine("***************************************");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("*******        FC 온라인        *******");
-            Console.ResetColor();
-            Console.WriteLine("***************************************");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("***************************************");
-            Console.ResetColor();
-            Console.WriteLine();
-        }
-        public void InitGame()
-        {
-            players[0] = new Striker("호날두");
-            players[1] = new Striker("메시");
-            players[2] = new Striker("음바페");
-            players[3] = new MidFielder("이강인");
-            players[4] = new MidFielder("심재천");
-            players[5] = new MidFielder("김흥국");
-            players[6] = new Defender("김민재");
-            players[7] = new Defender("홍명보");
-            match = new Match();
-
-            Player[] team = new Player[MaxTeamCapacity];
-
-            int cnt = 0;
-            while(cnt < MaxTeamCapacity)
+            switch (user.MyKey)
             {
-                RenderTitle();
-
-                Console.Write("명단에 포함할 선수의 번호를 입력하세요.");
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"({cnt}/{MaxTeamCapacity})");
-                Console.ResetColor();
-
-                for(int i=0; i<players.Length; i++)
-                {
-                    if (includingPlayers[i] == true)
-                    {
-                        Console.Write($"   ");
-                    }
-                    else
-                    {
-                        Console.Write($"{i + 1}:{players[i].Name} ");
-                    }
-                }
-                Console.WriteLine();
-                Console.ForegroundColor = ConsoleColor.Green;
-                for (int i=0; i<team.Length; i++)
-                {
-                    if (team[i] == null) continue;
-                    Console.Write($"{team[i].Name} ");
-                }
-                Console.WriteLine();
-                Console.ResetColor();
-
-                int inputKey = int.Parse(Console.ReadLine());
-                if(inputKey < 1 || inputKey > 8)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("잘못된 입력입니다. 다시 입력하세요.");
-                    Console.ResetColor();
-                    Thread.Sleep(1000);
-                    Console.Clear();
-                    continue; 
-                }
-                else
-                {
-                    if (includingPlayers[inputKey-1] == true)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("이미 포함된 선수입니다. 다시 입력하세요.");
-                        Console.ResetColor();
-                        Thread.Sleep(1000);
-                        Console.Clear();
-                        continue;
-                    }
-                    includingPlayers[inputKey - 1] = true;
-                    team[cnt] = players[inputKey - 1];
-                    cnt++;
-                    Thread.Sleep(100);
-                    Console.Clear();
-                }
-            }
-            Thread.Sleep(300);
-            match.MatchSetting(team);
-        }
-        public void LoopGame()
-        {
-            while(LoopCount > 0)
-            {
-                RenderTitle();
-                match.PlayMatch();
-                LoopCount--;
+                case ConsoleKey.D1:
+                    user.MyChamp.EquipItem(new InfinityEdge(), (ItemSlotNumber)slotNumber);
+                    break;
+                case ConsoleKey.D2:
+                    user.MyChamp.EquipItem(new HpPotion(), (ItemSlotNumber)slotNumber);
+                    break;
+                case ConsoleKey.D3:
+                    user.MyChamp.EquipItem(new QuicksilverSash(), (ItemSlotNumber)slotNumber);
+                    break;
             }
 
-            Console.ForegroundColor= ConsoleColor.Red;
-            Console.WriteLine("5초 뒤 게임이 종료됩니다.");
-            Console.ResetColor();
-            Thread.Sleep(5000);
+            Console.Clear();
+            RendeTitle();
+        }
+        private void RenderItemSlot()
+        {
+
+        }
+
+
+        public void GameLoop()
+        {
+            RendeTitle();
+            while (gameLoop)
+            {
+                RenderNormalMenual();
+                if (!gameLoop)
+                {
+                    return;
+                }
+            }
         }
 
         static void Main(string[] argc)
         {
-            FCOnline fcOnline = new FCOnline();
-            fcOnline.InitGame();
-            fcOnline.LoopGame();
+            LeagueOfLegend lol = new LeagueOfLegend();
+            lol.GameLoop();
         }
     }
 
-    #endregion
+    //class Program
+    //{
+    //    // 구조체, 클래스는 변수와 함수의 집합체
 
+    //    static void Main()
+    //    {
 
-
+    //    }
+    //}
 }

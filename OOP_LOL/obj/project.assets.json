@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\SHIMNALDO\\source\\repos\\CsharpProgramming\\BlackJack\\etc.BlackJack.csproj",
-      "projectName": "etc.BlackJack",
-      "projectPath": "C:\\Users\\SHIMNALDO\\source\\repos\\CsharpProgramming\\BlackJack\\etc.BlackJack.csproj",
+      "projectUniqueName": "C:\\Users\\SHIMNALDO\\source\\repos\\CsharpProgramming\\OOP_LOL\\01.OOP.csproj",
+      "projectName": "01.OOP",
+      "projectPath": "C:\\Users\\SHIMNALDO\\source\\repos\\CsharpProgramming\\OOP_LOL\\01.OOP.csproj",
       "packagesPath": "C:\\Users\\SHIMNALDO\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\SHIMNALDO\\source\\repos\\CsharpProgramming\\BlackJack\\obj\\",
+      "outputPath": "C:\\Users\\SHIMNALDO\\source\\repos\\CsharpProgramming\\OOP_LOL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

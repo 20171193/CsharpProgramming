@@ -37,6 +37,11 @@ namespace _04._Interface
         void UnEquiped();
     }
 
+    public interface IDefendable    // 방어할 수 있는 것들
+    {
+        void Defend();
+    }
+
     class Player{
         private Weapon myWeapon;
         public Weapon GetWeapon(){
@@ -86,7 +91,7 @@ namespace _04._Interface
             Console.WriteLine("탕탕탕");
         }
     }
-    public class Sword : Weapon
+    public class Sword : Weapon, IDefendable
     {
         public Sword(string name) 
         {
@@ -96,9 +101,9 @@ namespace _04._Interface
         {
             Console.WriteLine("슉슉슉");
         }
-        public void Block()
+        public void Defend()
         {
-            Console.WriteLine("막기");
+            Console.WriteLine("칼로 막기");
         }
     }
 
@@ -124,7 +129,7 @@ namespace _04._Interface
                 if (player.GetWeapon() is Sword)
                 {
                     Sword sword = player.GetWeapon() as Sword;
-                    sword.Block();
+                    sword.Defend();
                 }
                 #endregion
                 player.UnEquip();

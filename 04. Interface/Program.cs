@@ -33,20 +33,41 @@ namespace _04._Interface
 {
     public interface IEquipable     // 장착할 수 있는 것들
     {
-        void Equip();
-        void UnEquip();
+        void Equiped();
+        void UnEquiped();
     }
+
+    class Player{
+        private Weapon myWeapon;
+        public Weapon GetWeapon(){
+            return myWeapon;    
+        }
+        public void SetWeapon(Weapon weapon){
+            myWeapon = weapon;
+        }
+
+        public void Equip(){
+            Console.WriteLine("플레이어가 무기를 듭니다.");
+            myWeapon.Equiped();
+        }
+        public void UnEquip(){
+            Console.WriteLine("플레이어가 무기를 내려놓습니다.");
+            myWeapon.UnEquiped();
+        }
+    }
+
+
 
     
     public abstract class Weapon : IEquipable    // Weapon 추상 클래스
     {
         protected string name;
 
-        public void Equip()
+        public void Equiped()
         {
             Console.WriteLine($"{name} 을/를 장착합니다.");
         }
-        public void UnEquip()
+        public void UnEquiped()
         {
             Console.WriteLine($"{name} 을/를 장착해제 합니다.");
         }
@@ -86,25 +107,28 @@ namespace _04._Interface
     {
         static void Main(string[] args)
         {
+            Player player = new Player();
             List<Weapon> weaponList = new List<Weapon>();
             weaponList.Add(new Gun("총"));
             weaponList.Add(new Sword("칼"));
             
             foreach(Weapon weapon in weaponList)
             {
-                weapon.Equip();     // 인터페이스 함수호출 
-                weapon.Attack();    // 재정의한 추상함수 호출
+                player.SetWeapon(weapon);
+
+                player.Equip();
+                player.GetWeapon().Attack();
                 #region 테스트용 추상클래스 다운캐스팅
                 // 다운캐스팅이 가능하다면
                 // 추후 SpecialSkill로 바꿔보기.
-                if (weapon is Sword)
+                if (player.GetWeapon() is Sword)
                 {
-                    // 다운캐스팅
-                    Sword sword = weapon as Sword;
+                    Sword sword = player.GetWeapon() as Sword;
                     sword.Block();
                 }
                 #endregion
-                weapon.UnEquip();   // 인터페이스 함수호출
+                player.UnEquip();
+                Console.WriteLine();
             }
         }
     }

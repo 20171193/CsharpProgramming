@@ -1,0 +1,15 @@
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\obj\Debug\net6.0\Main.csproj.AssemblyReference.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\obj\Debug\net6.0\Main.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\obj\Debug\net6.0\Main.AssemblyInfoInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\obj\Debug\net6.0\Main.AssemblyInfo.cs
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\obj\Debug\net6.0\Main.csproj.CoreCompileInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\bin\Debug\net6.0\Main.exe
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\bin\Debug\net6.0\Main.deps.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\bin\Debug\net6.0\Main.runtimeconfig.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\bin\Debug\net6.0\Main.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\bin\Debug\net6.0\Main.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\obj\Debug\net6.0\Main.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\obj\Debug\net6.0\refint\Main.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\obj\Debug\net6.0\Main.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\obj\Debug\net6.0\Main.genruntimeconfig.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\Main\obj\Debug\net6.0\ref\Main.dll

@@ -1,0 +1,15 @@
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\obj\Debug\net6.0\06. Delegate.csproj.AssemblyReference.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\obj\Debug\net6.0\06. Delegate.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\obj\Debug\net6.0\06. Delegate.AssemblyInfoInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\obj\Debug\net6.0\06. Delegate.AssemblyInfo.cs
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\obj\Debug\net6.0\06. Delegate.csproj.CoreCompileInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\bin\Debug\net6.0\06. Delegate.exe
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\bin\Debug\net6.0\06. Delegate.deps.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\bin\Debug\net6.0\06. Delegate.runtimeconfig.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\bin\Debug\net6.0\06. Delegate.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\bin\Debug\net6.0\06. Delegate.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\obj\Debug\net6.0\06. Delegate.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\obj\Debug\net6.0\refint\06. Delegate.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\obj\Debug\net6.0\06. Delegate.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\obj\Debug\net6.0\06. Delegate.genruntimeconfig.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\obj\Debug\net6.0\ref\06. Delegate.dll

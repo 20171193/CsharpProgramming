@@ -1,0 +1,15 @@
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\bin\Debug\net6.0\05. Array and Generic.exe
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\bin\Debug\net6.0\05. Array and Generic.deps.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\bin\Debug\net6.0\05. Array and Generic.runtimeconfig.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\bin\Debug\net6.0\05. Array and Generic.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\bin\Debug\net6.0\05. Array and Generic.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\obj\Debug\net6.0\05. Array and Generic.csproj.AssemblyReference.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\obj\Debug\net6.0\05. Array and Generic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\obj\Debug\net6.0\05. Array and Generic.AssemblyInfoInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\obj\Debug\net6.0\05. Array and Generic.AssemblyInfo.cs
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\obj\Debug\net6.0\05. Array and Generic.csproj.CoreCompileInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\obj\Debug\net6.0\05. Array and Generic.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\obj\Debug\net6.0\refint\05. Array and Generic.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\obj\Debug\net6.0\05. Array and Generic.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\obj\Debug\net6.0\05. Array and Generic.genruntimeconfig.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\obj\Debug\net6.0\ref\05. Array and Generic.dll

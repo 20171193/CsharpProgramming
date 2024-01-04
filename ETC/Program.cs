@@ -8,323 +8,332 @@ using System.Transactions;
 using System.Reflection.Metadata.Ecma335;
 using System.Collections.Specialized;
 using System.Text;
+using System.Runtime.Intrinsics.Arm;
 
 namespace ETC
 {
+    //  1.플레이어가 코인을 얻을때 발생하는 이벤트를 구현하자
+    //  2.이벤트에 반응하는 UI, SFX, VFX 객체를 구현하자
+    //  3.플레이어가 코인을 얻을때 발생하는 이벤트에 반응하도록 UI, SFX, VFX를 참조하자
+    //  4.플레이어가 코인을 얻으면 UI, SFX, VFX가 반응하는지 확인하자
 
-    #region 1. 일반화 활용 배열 복사
-    // 1. 일반화를 이용하여 어떤 자료형의 배열이더라도 복사가능한 함수를 구현.
-    //class Generic
-    //{
-    //    static void ArrayCopy<T>(T[] arr, T[] temp)
-    //    {
-    //        for(int i =0; i<arr.Length; i++)
-    //        {
-    //            temp[i] = arr[i];
-    //        }
-    //    }
-    //    static void Main(string[] argc)
-    //    {
-    //        int[] a = new int[5] { 1, 2, 3, 4, 5 };
-    //        int[] b = new int[5];
-    //        float[] c = new float[5] { 1.2f, 2.3f, 3.4f, 4.5f, 5.6f };
-    //        float[] d = new float[5];
+    //  A++) 방어구의 내구도 시스템을 구현해보자
+    //   플레이어가 방어구를 착용하고, 플레이어 피격시마다 내구도가 1감소하도록 구현.
+    //   내구도가 0이 되면 방어구가 해제되도록 구현하자.
 
-    //        Console.WriteLine("befor copy");
-    //        Console.Write("int b:");
-    //        for(int i =0; i<5; i++)
-    //        {
-    //            Console.Write($"{b[i]},");
-    //        }
-    //        Console.WriteLine();
-    //        Console.Write("float d:");
-    //        for (int i = 0; i < 5; i++)
-    //        {
-    //            Console.Write($"{d[i]},");
-    //        }
-    //        Console.WriteLine();
-
-    //        ArrayCopy<int>(a, b);
-    //        ArrayCopy<float>(c, d);
-
-    //        Console.WriteLine("after copy");
-    //        Console.Write("int b:");
-    //        for (int i = 0; i < 5; i++)
-    //        {
-    //            Console.Write($"{b[i]},");
-    //        }
-    //        Console.WriteLine();
-    //        Console.Write("float d:");
-    //        for (int i = 0; i < 5; i++)
-    //        {
-    //            Console.Write($"{d[i]},");
-    //        }
-    //        Console.WriteLine();
-    //    }
-    //}
-    #endregion
-
-    #region 2. 대리자를 활용 계산기
-    // 2. 대리자를 이용하여 계산기 구현.
-
-    public class Program
+    // < 1~4, A++ >
+    public interface IEquipmentable
     {
-        bool runProgram;
-        private RenderManager renderMgr;
-        private InputManager inputMgr;
-        private Calculator cal;
-        public Program()
+        public void Equip(Equipment equipment);
+    }
+    public class Player : IEquipmentable
+    {
+        private int ownCoin;    // 코인
+        public int OwnCoin { get { return ownCoin; } }
+
+        private int ownHp;  // 체력
+        public int OwnHp { get { return ownHp; } }  
+
+        public event Action OnGetCoin;      // 코인획득 이벤트
+        public event Action<IEquipmentable> OnEquip;    // 방어구 장착 이벤트
+        public event Action OnTakeDamage;   // 피격 시 이벤트
+
+        public Armour myAmour;
+
+        public Player()
         {
-            renderMgr = new RenderManager();
-            inputMgr = new InputManager();
-            cal = new Calculator();
-            runProgram = true;
+            ownCoin = 0;
+            ownHp = 100;
         }
 
-        public void RunProgram()
+        public void GetCoin()
         {
-            while (runProgram)
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"코인 획득!");
+            Console.ResetColor();
+            ownCoin += 50;
+            if(OnGetCoin != null)
+                OnGetCoin();
+        }
+
+        #region A++
+        // 이벤트 구현
+        public void Equip(Equipment equipment)
+        {
+            Console.WriteLine("플레이어가 장비를 장착합니다.");
+            myAmour = (Armour)equipment;
+            if (OnEquip != null)
             {
-                renderMgr.Rendering(inputMgr.strbd);
-                if(inputMgr.InputString())
+                OnEquip(this);
+            }
+        }
+
+        public void UnEquip(Equipment equipment)
+        {
+            // 방어구 해제 구현
+            myAmour = null;
+        }
+
+        public void TakeDamage(int damage)
+        {
+            // 이벤트 발생 구현
+            if(myAmour == null)
+            {
+                Console.WriteLine($"플레이어가 {damage}의 피해를 입었습니다.");
+                if (ownHp - damage > 0)
                 {
-                    cal.SetCommand(inputMgr.left, inputMgr.oper, inputMgr.right);
-                    inputMgr.InputComplete(cal.Equal());
-                    renderMgr.RenderClear(200);
-                    renderMgr.Rendering(inputMgr.strbd);
+                    ownHp -= damage;
                 }
                 else
                 {
-                    renderMgr.RenderClear(200);
+                    // 추후 사망처리
                 }
-            }
-        }
-    }
-    public class RenderManager
-    {
-        public void Rendering(StringBuilder strbd)
-        {
-            Console.WriteLine("--------------");
-            Console.WriteLine(strbd);
-            Console.WriteLine("--------------");
-            Console.WriteLine();
-        }
-        public void RenderClear(int time)
-        {
-            Thread.Sleep(time);
-            Console.Clear();
-        }
-    }
-    public class InputManager
-    {
-        public Calculator cal;
-        public StringBuilder strbd;
-        public double left; 
-        public double right;
-        public char oper;
-
-        private bool[] inputCondition;
-        private int bIndex;
-        public InputManager()
-        {
-            strbd = new StringBuilder();
-            cal = new Calculator(); 
-            inputCondition = new bool[3] { false,false,false};
-            bIndex = 0;
-        }
-        public bool InputString()
-        {
-            strbd.Append(" ");
-            string temp = Console.ReadLine();
-            inputCondition[bIndex] = true;
-            switch(bIndex)
-            {
-                case 0: // left
-                    left = double.Parse(temp);
-                    break;
-                case 1: // oper
-                    oper = char.Parse(temp);
-                    break;
-                case 2: // right
-                    right = double.Parse(temp);
-                    break;
-            }
-            strbd.Append(temp);
-            bIndex++;
-            if (bIndex > 2)
-            {
-                strbd.Append(" = ");
-                return true;
             }
             else
             {
-                return false;
+                // Call 방식
+                myAmour.OnDamage(damage);
             }
         }
-        public void InputComplete(double result)
-        {
-            // 입력조건 충족
-            strbd.Append(" = ");
-            strbd.Append(result);
-            ResetCondition();   
-        }
-        private void ResetCondition() // 입력조건 초기화
-        {
-            bIndex = 0;
-            Array.Fill<bool>(inputCondition, false);
-            strbd.Clear();
-        }
+
+        #endregion
+    }
+    #region A++
+    public abstract class Equipment
+    {
+        protected IEquipmentable owner;
+        protected int durability;
+        public int Durability { get { return durability; } }
+        
+        public abstract void Equip(IEquipmentable owner); // 방어구 착용시 반응 구현
+        public abstract void OnDamage(int value); // 피격시 행동 구현
     }
 
-    public class Calculator
+    public class Armour : Equipment
     {
-        Func<double, double, double> fd;
-        double left;
-        double right;
-        public double Plus(double left, double right) { return left + right; }
-        public double Minus(double left, double right) { return left - right; }
-        public double Multi(double left, double right) { return left * right; }
-        public double Divide(double left, double right) { return left / right; }
-        public double Mod(double left, double right) { return left % right; }
-
-        public void SetCommand(double left, char oper, double right)
+        public Armour(IEquipmentable owner)
         {
-            this.left = left;
-            this.right = right;
-            // 계산금지
-            switch (oper)
+            this.owner = owner;
+            durability = 5;
+            if(owner is Player)
             {
-                case '+':
-                    fd = Plus;
-                    break;
-                case '-':
-                    fd = Minus;
-                    break;
-                case '*':
-                    fd = Multi;
-                    break;
-                case '/':
-                    fd = Divide;
-                    break;
-                case '%':
-                    fd = Mod;
-                    break;
+                Player player = (Player)owner;
+                player.OnEquip -= Equip;
+                player.OnEquip += Equip;
             }
         }
-        public double Equal()
+
+        public override void Equip(IEquipmentable owner)
         {
-            // 조건문 쓰기 금지
-            return fd(left, right);
+            Player player = owner as Player;
+            player.myAmour = this;
+            Console.WriteLine($"갑옷을 장착합니다. 내구도 : {durability}");
+        }
+
+        public override void OnDamage(int value)
+        {
+            if(durability - value < 1)
+            {
+                Console.WriteLine($"갑옷이 {value}의 피해를 입어 파괴됩니다.");
+                durability = 0;
+                if (owner is Player)
+                {
+                    Player player = (Player)owner;
+                    player.OnEquip -= Equip;
+                    player.UnEquip(this);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"갑옷이 {value}의 피해를 흡수합니다.");
+                durability -= value;
+            }
         }
     }
-    public class TestCalculator
+
+    #endregion
+
+    public interface ICoinEventReferecable
     {
-        public static void Main()
+        public void GetCoinRefer();
+    }
+
+    class GameEnvironment
+    {
+        protected Player player;
+    }
+
+    class UI : GameEnvironment, ICoinEventReferecable
+    {
+        public UI(Player player)
         {
-            Program program = new Program();
-            program.RunProgram();
+            this.player = player;
+            player.OnGetCoin -= GetCoinRefer;   // 예외처리 (이미 할당되어있다면 해제 후 다시 할당)
+            player.OnGetCoin += GetCoinRefer;
+        }
+
+        public void UIRendering()
+        {
+            Console.WriteLine("******** 플레이어 정보 ********");
+            Console.Write(" $ : ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(player.OwnCoin);
+            Console.ResetColor();
+            Console.Write(" | HP : ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(player.OwnHp);
+            Console.ResetColor();
+            if(player.myAmour != null)
+            {
+                Console.Write(" | 갑옷 : ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write(player.myAmour.Durability);
+                Console.ResetColor();
+            }
+            Console.WriteLine();
+        }
+
+        public void GetCoinRefer()
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("UI 출력");
+            Console.ResetColor();
         }
     }
-    #endregion
+    class SFX : GameEnvironment, ICoinEventReferecable
+    {
+        public SFX(Player player)
+        {
+            this.player = player;
+            player.OnGetCoin -= GetCoinRefer;
+            player.OnGetCoin += GetCoinRefer;
+        }
+        public void GetCoinRefer()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("사운드 출력");
+            Console.ResetColor();
+        }
+    }
+    class VFX : GameEnvironment, ICoinEventReferecable
+    {
+        public VFX(Player player)
+        {
+            this.player = player;
+            player.OnGetCoin -= GetCoinRefer;
+            player.OnGetCoin += GetCoinRefer;
+        }
 
-    #region 3. 콜백함수 활용 버튼
-    //// 3. 콜백함수를 이용하여 플레이어를 조작하는 UI 버튼제작 (점프, 대시)
-    //abstract class Button
-    //{
-    //    protected Action action;
-    //    public virtual void OnClick()
-    //    {
-    //        if(action != null)
-    //        {
-    //            action();
-    //        }
-    //    }
-    //}
+        public void GetCoinRefer()
+        {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("이펙트효과 출력");
+            Console.ResetColor();
+        }
+    }
 
-    //class DashButton : Button
-    //{
-    //    public DashButton(Action action)
-    //    {
-    //        this.action = action;
-    //    }
-    //    public override void OnClick()
-    //    {
-    //        Console.WriteLine("대쉬버튼 클릭");
-    //        base.OnClick();
-    //    }
-    //}
-    //class JumpButton : Button
-    //{
-    //    public JumpButton(Action action)
-    //    {
-    //        this.action = action;
-    //    }
-    //    public override void OnClick()
-    //    {
-    //        Console.WriteLine("점프버튼 클릭");
-    //        base.OnClick();
-    //    }
-    //}
+    class Game
+    {
+        private Player player;
+        private UI ui;
+        private SFX sfx;
+        private VFX vfx;
 
-    //class Player
-    //{
-    //    public void Dash()
-    //    {
-    //        Console.ForegroundColor = ConsoleColor.Green;
-    //        Console.WriteLine("플레이어 대시");
-    //        Console.ResetColor();
-    //    }
-    //    public void Jump()
-    //    {
-    //        Console.ForegroundColor = ConsoleColor.Cyan;
-    //        Console.WriteLine("플레이어 점프");
-    //        Console.ResetColor();
-    //    }
-    //}
+        public bool loopGame;
 
-    //class TestButton
-    //{
-    //    static void Main(string[] args) 
-    //    {
-    //        Player player = new Player();
-    //        Button dashButton = new DashButton(player.Dash);
-    //        Button jumpButton = new JumpButton(player.Jump);
+        public Game()
+        {
+            player = new Player();
+            ui = new UI(player);
+            sfx = new SFX(player);
+            vfx = new VFX(player);
+            loopGame = true;
+        }
 
-    //        dashButton.OnClick();
-    //        jumpButton.OnClick();   
-    //    }
-    //}
-    #endregion
+        public void Render()
+        {
+            ui.UIRendering();
+        }
+        public ConsoleKey UserInput()
+        {
+            Console.Write("1:코인 | 2:피격 | 3:갑옷장착 | ESC:종료 ");
+            ConsoleKey inputKey = Console.ReadKey().Key;
+            Console.WriteLine();
+            Console.WriteLine();
+            return inputKey;
+        }
+        public void GameLoop()
+        {
+            ConsoleKey inputKey;
+            while(loopGame) 
+            { 
+                Render();
+                inputKey = UserInput();
+                switch(inputKey)
+                {
+                    case ConsoleKey.D1:
+                        player.GetCoin();
+                        break;
+                    case ConsoleKey.D2:
+                        player.TakeDamage(1);
+                        break;
+                    case ConsoleKey.D3:
+                        if(player.myAmour == null)
+                            player.Equip(new Armour(player));
+                        else
+                            Console.WriteLine("이미 존재하는 장비입니다.");
+                        break;              
+                    case ConsoleKey.Escape:
+                        loopGame = false;
+                        break;
+                    default:
+                        Console.WriteLine("잘못된 입력입니다.");
+                        break;
+                }
+                if(inputKey != ConsoleKey.Escape)
+                    Thread.Sleep(1200);
+                Console.Clear();
+            }
+        }
+    }
 
-    #region A+ Array.FindAll<>()
-    // A+. Array.FindAll() 을 이용하여 int 배열안에 있는 5보다 작은수들을 모두 찾는 기능 구현.
-    //class TestAFA
+    class Program
+    {
+        static void Main(string[] argc)
+        {
+            Game game = new Game();
+            game.GameLoop();
+        }
+    }
+
+
+    // < 5 >
+    //  5.두 수를 입력받고 숫자1 / 숫자2 의 결과를 출력하도록 하자.단, 숫자2가 0인 경우 예외처리를 통해 0으로 나눌 수 없다고 출력하도록 하자.
+    //class TestException
     //{
     //    static void Main(string[] argc)
     //    {
-    //        int[] arr = new int[10] { 1, -5, 7, 10, 12, 3, -8, 9, 4, 5 };
-    //        int[] arr2 = Array.FindAll<int>(arr, value => value < 5);
-    //        Array.Sort(arr2);
-
-    //        Console.ForegroundColor = ConsoleColor.Red;
-    //        Console.WriteLine("Ascending Array");
-    //        Console.ResetColor();
-    //        for (int i = 0; i < arr2.Length; i++)
+    //        try
     //        {
-    //            Console.Write($"{arr2[i]} ");
+    //            Console.Write("1번 숫자를 입력하시오 : ");
+    //            int num1 = int.Parse(Console.ReadLine());
+    //            Console.Write("2번 숫자를 입력하시오 : ");
+    //            int num2 = int.Parse(Console.ReadLine());
+
+    //            Console.WriteLine($"{num1} / {num2} = {num1 / num2}");
     //        }
-    //        Console.WriteLine();
-
-    //        Array.Sort(arr2, (a, b) => (a > b) ? -1 : 1);
-
-    //        Console.ForegroundColor = ConsoleColor.Blue;
-    //        Console.WriteLine("Descending Array");
-    //        Console.ResetColor();
-    //        for (int i = 0; i < arr2.Length; i++)
+    //        catch(DivideByZeroException ex)
     //        {
-    //            Console.Write($"{arr2[i]} ");
+    //            Console.WriteLine(ex.Message);
+    //            Console.WriteLine("0으로 나눌 수 없습니다.");
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            Console.WriteLine(ex.Message);
+    //            Console.WriteLine("입력이 잘못되었습니다.");
     //        }
     //    }
     //}
-    #endregion
+
+
 }

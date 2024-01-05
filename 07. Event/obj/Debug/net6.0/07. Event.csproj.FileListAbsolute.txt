@@ -1,0 +1,15 @@
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\bin\Debug\net6.0\07. Event.exe
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\bin\Debug\net6.0\07. Event.deps.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\bin\Debug\net6.0\07. Event.runtimeconfig.json
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\bin\Debug\net6.0\07. Event.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\bin\Debug\net6.0\07. Event.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\obj\Debug\net6.0\07. Event.csproj.AssemblyReference.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\obj\Debug\net6.0\07. Event.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\obj\Debug\net6.0\07. Event.AssemblyInfoInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\obj\Debug\net6.0\07. Event.AssemblyInfo.cs
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\obj\Debug\net6.0\07. Event.csproj.CoreCompileInputs.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\obj\Debug\net6.0\07. Event.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\obj\Debug\net6.0\refint\07. Event.dll
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\obj\Debug\net6.0\07. Event.pdb
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\obj\Debug\net6.0\07. Event.genruntimeconfig.cache
+C:\Users\SHIMNALDO\source\repos\CsharpProgramming\07. Event\obj\Debug\net6.0\ref\07. Event.dll

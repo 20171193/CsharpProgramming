@@ -1,0 +1,329 @@
+﻿namespace _08._Additional
+{
+    #region 1. C# 제공 메서드
+
+    #region string 메서드
+    class StringMethod
+    {
+        void Main()
+        {
+            string str = "abc 123";
+            string upperStr = str.ToUpper();            // "ABC 123"
+            string lowerStr = str.ToLower();            // "abc 123"
+            string[] partitionStr = str.Split(' ');     // {"abc", "123"} 
+            string replaceStr = str.Replace('a', 'z');  // "zbc 123" 
+        }
+    }
+    #endregion
+
+    #region Array 메서드
+    class ArrayMethod
+    {
+        void Main1()
+        {
+            int[] arr = { 1, 2, 3, 4, 5 };
+            int maxNum = arr.Max();
+            int minNum = arr.Min();
+            double average = arr.Average();
+
+            Array.Sort(arr);                            // 기본 : 오름차순 정렬
+            Array.Sort(arr, (a, b) => a > b ? 1 : -1);  // 내림차순 정렬
+        }
+    }
+    #endregion
+
+    #region Int 메서드
+    class IntMethod
+    {
+        void Main2()
+        {
+            int num;
+            num = int.Parse("123");
+            // num = int.Parse("$@%#@$");   Error : TryParse 사용하여 형변환 체크하기.
+
+            num = int.MaxValue; // 2147....
+            num = int.MinValue; // -2147....
+            Console.WriteLine(num);
+        }
+    }
+    #endregion
+
+    #endregion
+
+    #region 2. 프로퍼티 (Property)
+
+    class Property
+    {
+        // * 필드 내의 모든 변수에 대해 직접 요청하는 것이 아닌, "읽는 행위", "쓰는 행위"를 요청.
+        // * 상수 등을 제외하고는 필드 내부 변수를 private으로 선언.
+        // * 읽기, 쓰기 행위를 public으로 사용해주자.
+
+        public class Player
+        {
+            private int hp;                      // 1. private 변수
+            public int Hp { get { return hp; } } // 2. 읽기 전용 (상수처럼 사용가능)
+            public int Hp2 { get { return hp; } set { hp = value; } } // 3. 읽기/쓰기 전용
+
+            // 응용문
+            private int MaxHp = 100;
+            public event Action<int> OnChangeHp;
+            public int Hp3  // 4. 쓰기 조건세팅
+            {
+                get
+                {
+                    return hp;
+                }
+                set
+                {
+                    if (value >= MaxHp) hp = 100;   // 최대 체력으로 세팅 제한
+                    else hp = value;
+
+                    OnChangeHp(hp); // HP 변경 이벤트 실행 (UI, 사운드 등등)
+                }
+            }
+
+        }
+        void Main()
+        {
+            Player player = new Player();
+            // player.Hp = 50;  // Error : 읽기 전용임.
+            player.Hp2 = 80;    // hp = 80;
+            player.Hp3 = 500;   // hp = 100;    UI 변경.
+
+        }
+    }
+    #endregion
+
+    #region 3. 분리 (Partial)
+
+    class Partial
+    {
+
+        // * partial class
+        // * 같은 클래스를 구분해서 작업할 수 있도록.
+
+        // 전투 담당자 소스
+        public partial class Player
+        {
+            private int hp;
+            public void Attack() { }
+            public void Defence() { }
+        }
+        // 아이템 담당자 소스
+        public partial class Player
+        {
+            public int itemSlotCapacity;
+            public void GetItem() { }
+            public void UseItem() { }
+        }
+
+        // * partial method
+        // * 선언부와 구현부를 분리하여 구현.
+        // * 구현부를 숨길 수 있는 기능.
+        // * 함수의 기능을 보여주고 내용을 감춤.
+        public partial class Monster
+        {
+            public partial void Attack();
+        }
+        public partial class Monster
+        {
+            public partial void Attack()
+            {
+                // method body
+            }
+        }
+    }
+
+    #endregion
+
+    #region 4. 확장 메서드 (Extension Method)
+
+    static class ExtensionMethod
+    {
+        // * 자주 쓰는 기능들을 확장 메서드로 생성.
+
+        // 단어 수를 알고싶음. 
+        // 단어 수를 제공해주는 메서드 생성
+        // static 클래스 내부에 static 메서드 생성. this로 매개변수 받기.
+        public static int WordCount(this string str)
+        {
+            return str.Split(' ').Length;
+        }
+        //public static void Main()
+        //{
+        //    string str = "abc def lf";
+        //    int count1 = WordCount(str);    // 1. 기본 호출
+        //    int count2 = str.WordCount();   // 2. 확장 메서드 호출
+        //}
+    }
+    #endregion
+
+    #region 5. 연산자 재정의 (Operator OverLoading)
+    // 상황
+    class Test
+    {
+        public struct Vector2
+        {
+            public int x;
+            public int y;
+            public Vector2(int x, int y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+
+            // ------------------------------------------------------------------------------
+            // 연산자 재정의
+            public static Vector2 operator +(Vector2 a, Vector2 b)
+            {
+                int x = a.x + b.x;
+                int y = a.y + b.y;
+                return new Vector2(x, y);
+            }
+            public static Vector2 operator *(Vector2 a, int value)
+            {
+                int x = a.x + value;
+                int y = a.y * value;
+                return new Vector2(x, y);
+            }
+        }
+        void Main()
+        {
+            Vector2 aVec = new Vector2(2, 1);
+            Vector2 bVec = new Vector2(5, 3);
+
+            // Vector2 resultVec = aVec + bVec;  Error : aVec + bVec 연산을 실행할 수 없음.
+            Vector2 resultVec = new Vector2(aVec.x + bVec.x, bVec.y + bVec.y);
+            // Vector 연산을 계속 반복해야 한다면 매우 번거로움.
+
+            // -----------------------------------------------------------------------------
+            // 연산자 재정의 
+            resultVec = aVec + bVec;    // 직관적으로 사용 가능.
+            resultVec = aVec * 3;
+        }
+    }
+
+    #endregion
+
+    #region 6. 매개변수 Parameter
+    class Parameter
+    {
+        // * Named Parameter
+        void Profile(int id, string name, string phone) { }
+
+        // * Optional Parameter
+        // * 매개변수의 초기값을 설정할 수 있음.
+        // * 마지막에 위치한 매개변수부터 설정해야함.
+
+        void AddStudent(string name, string home = "서울", int age = 5) { }
+        // void AddParent(string name, string home = "서울", int age) { }     Error : 초기값이 있는 매개변수는 뒤부터 작성
+
+
+        void Main()
+        {
+            // * Named Parameter
+            Profile(10, "호날두", "010-7777-7777");
+            Profile(name: "호날두", phone: "010-7777-7777", id: 10);   // Named Parameter
+
+            // * Optional Parameter
+            AddStudent("짱구", "서울", 5);
+            AddStudent("철수", "서울", 5);
+            AddStudent("맹구");            // Optional Parameter
+            AddStudent("유리", "구리");
+            AddStudent("호날두", age: 35);  // home = "서울"
+        }
+
+
+        // <Params Parameter>
+        // 매개변수의 갯수가 정해지지 않은 경우, 매개변수의 갯수를 유동적으로 사용하는 방법
+        int Sum(params int[] values)
+        {
+            int sum = 0;
+            for (int i = 0; i < values.Length; i++) sum += values[i];
+            return sum;
+        }
+
+        void Main3()
+        {
+            Sum(1, 3, 5, 7, 9);
+            Sum(3, 5, 7);
+            Sum();
+        }
+
+
+        // <in Parameter>
+        // 매개변수를 입력전용으로 설정
+        // 함수의 처음부터 끝까지 동일한 값을 보장하게 됨 (원본 값을 변경하고 싶지 않을 때)
+        int Plus(in int left, in int right)
+        {
+            // left = 20;      // error : 입력전용 매개변수는 변경 불가
+            return left + right;
+        }
+        public class Player
+        {
+            public int hp;
+            public Player()
+            {
+                hp = 10;
+            }
+        }
+
+        public void TakeDamage(in Player player, int value)
+        {
+            player.hp -= value;
+        }
+
+        void Main4()
+        {
+            int result = Plus(1, 3);
+            Console.WriteLine($"{result}");     // output : 4
+        }
+        static void Main(string[] args)
+        {
+            Parameter para = new Parameter();
+            Player player = new Player();
+            para.TakeDamage(in player, 5);
+
+            Console.WriteLine(player.hp);
+        }
+
+        // <out Parameter>
+        // 매개변수를 출력전용으로 설정
+        // 함수의 반환값 외에 추가적인 출력이 필요할 경우 사용
+        void Divide(int left, int right, out int quotient, out int remainder)
+        {
+            quotient = left / right;
+            remainder = left % right;
+
+            // 함수의 종료전까지 out 매개변수에 값이 할당 안되는 경우 오류
+        }
+
+        void Main5()
+        {
+            int quotient;
+            Divide(5, 3, out quotient, out int remainder);
+            Console.WriteLine($"{quotient}, {remainder}");  // output : 1, 2
+        }
+
+
+        // <ref Parameter>
+        // 매개변수를 원본참조로 전달
+        // 매개변수가 값형식인 경우에도 함수를 통해 원본값을 변경하고 싶을 경우 사용
+        void Swap(ref int left, ref int right)
+        {
+            int temp = left;
+            left = right;
+            right = temp;
+        }
+
+        void Main6()
+        {
+            int left = 10;
+            int right = 20;
+            Swap(ref left, ref right);
+            Console.WriteLine($"{left}, {right}");      // output : 20, 10
+        }
+    }
+
+    #endregion
+}

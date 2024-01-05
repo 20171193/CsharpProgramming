@@ -205,7 +205,7 @@
 
     #endregion
 
-    #region 6. 매개변수 Parameter
+    #region 6. Parameter
     class Parameter
     {
         // * Named Parameter
@@ -259,32 +259,10 @@
             // left = 20;      // error : 입력전용 매개변수는 변경 불가
             return left + right;
         }
-        public class Player
-        {
-            public int hp;
-            public Player()
-            {
-                hp = 10;
-            }
-        }
-
-        public void TakeDamage(in Player player, int value)
-        {
-            player.hp -= value;
-        }
-
         void Main4()
         {
             int result = Plus(1, 3);
             Console.WriteLine($"{result}");     // output : 4
-        }
-        static void Main(string[] args)
-        {
-            Parameter para = new Parameter();
-            Player player = new Player();
-            para.TakeDamage(in player, 5);
-
-            Console.WriteLine(player.hp);
         }
 
         // <out Parameter>
@@ -325,5 +303,173 @@
         }
     }
 
+    #endregion
+
+    #region 7. Indexer
+    internal class Indexer
+    {
+        // <인덱서 정의>
+        // this[]를 속성으로 정의하여 클래스의 인스턴스에 인덱스 방식으로 접근 허용
+        public class IndexerArray
+        {
+            private int[] array = new int[10];
+
+            public int this[int index]
+            {
+                get
+                {
+                    if (index < 0 || index >= array.Length)
+                        throw new IndexOutOfRangeException();
+                    else
+                        return array[index];
+                }
+                set
+                {
+                    if (index < 0 || index >= array.Length)
+                        throw new IndexOutOfRangeException();
+                    else
+                        array[index] = value;
+                }
+            }
+        }
+
+        void Main1()
+        {
+            IndexerArray array = new IndexerArray();
+
+            // 인덱서를 통한 인덱스 접근
+            array[5] = 20;      // this[] set 접근
+            int i = array[5];   // this[] get 접근
+        }
+
+
+        // <인덱서 자료형>
+        // 인덱서는 다른 자료형 사용도 가능
+        // 열거형을 통해 인덱서를 사용하는 경우도 빈번
+        public class Equipment
+        {
+            public enum Parts { Head, Body, Feet, Hand, SIZE }
+
+            string[] equip = new string[(int)Parts.SIZE];
+
+            public string this[Parts type]
+            {
+                get
+                {
+                    return equip[(int)type];
+                }
+                set
+                {
+                    equip[(int)type] = value;
+                }
+            }
+        }
+
+        void Main2()
+        {
+            Equipment equipment = new Equipment();
+
+            equipment[Equipment.Parts.Head] = "낡은 헬멧";
+            equipment[Equipment.Parts.Feet] = "가죽 장화";
+
+            Console.WriteLine($"착용하고 있는 신발 : {equipment[Equipment.Parts.Feet]}");
+        }
+    }
+    #endregion
+
+    #region 8. Nullable
+    class Nullable
+    {
+        public class NullClass
+        {
+            public int value;
+            public void Func() { }
+        }
+
+        void Main()
+        {
+            // * Nullable 타입
+            // * 참조형은 null 을 가질 수 있지만 값형식은 null을 가질 수 없음.
+            // * 값 형식에 ? 를 통해 Nullable 타입을 지원해줌.
+
+            bool? b = null;
+            int? i = 20;
+
+
+            // *** 유용하게 사용할 수 있음.
+            // * Nullable 조건 연산자
+            NullClass instance = null;  // instance 는 null
+            Console.WriteLine(instance.value);  // error 
+            Console.WriteLine(instance?.value);
+            instance.Func();    // error
+            instance?.Func();
+        }
+    }
+    #endregion
+
+    #region 9. Yield
+    class Yield
+    {
+        // * yield
+        // 반복기를 통해 데이터 집합을 하나씩 리턴할 때 사용
+        // 1. 반환할 데이터의 양이 커서 한꺼번에 반환하는 것보다 분할해서 반환하는 것이 효율적인 경우
+        // 2. 함수가 무제한의 데이터를 리턴할 경우
+        // 3. 이전단계까지의 결과에서 다음까지만의 계산이 필요한 경우
+        public IEnumerable<int> GetNumber()
+        {
+            yield return 10;
+            yield return 20;
+            yield return 30;
+            yield return 40;
+            yield return 50;
+        }
+
+        void Main1()
+        {
+            IEnumerator<int> iter = GetNumber().GetEnumerator();
+            iter.Reset();
+            while(iter.MoveNext())
+            {
+                int value = iter.Current;
+            }
+
+            // foreach 반복문은 IEnumerable 인터페이스가 포함된 데이터 집합을 반복하는 방식
+            foreach (int num in GetNumber())
+            {
+                Console.WriteLine(num);     // output : 10, 20, 30, 40, 50
+            }
+        }
+
+        // <yield 형식>
+        // yield return	: 반복에서 다음을 제공
+        IEnumerable<int> Repeater(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                yield return i;
+            }
+        }
+
+        // yield break	: 반복에서 끝을 제공
+        IEnumerable<int> UntilPlus(IEnumerable<int> numbers)
+        {
+            foreach (int n in numbers)
+            {
+                if (n > 0)
+                    yield return n;
+                else
+                    yield break;
+            }
+        }
+
+        void Main2()
+        {
+            foreach (int num in Repeater(5))
+                Console.WriteLine(num);     // output : 0, 1, 2, 3, 4
+
+            foreach (int num in UntilPlus(new int[5] { 1, 3, 5, -1, 4 }))
+                Console.WriteLine(num);     // output : 1, 3, 5
+        }
+    }
     #endregion
 }

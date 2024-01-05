@@ -1,4 +1,6 @@
-﻿namespace _08._Additional
+﻿using System.Runtime.CompilerServices;
+using System.Text;
+namespace _08._Additional
 {
     #region 1. C# 제공 메서드
 
@@ -428,7 +430,7 @@
         {
             IEnumerator<int> iter = GetNumber().GetEnumerator();
             iter.Reset();
-            while(iter.MoveNext())
+            while (iter.MoveNext())
             {
                 int value = iter.Current;
             }
@@ -471,5 +473,305 @@
                 Console.WriteLine(num);     // output : 1, 3, 5
         }
     }
+    #endregion
+
+
+
+    #region 실습
+
+    #region 1. 확장 메서드
+    // int 자료형에 확장메서드로 추가기능 붙이기
+    // int value = 3;
+    // bool isEven = value.isEven();
+
+    //public static class ExtentionMethodTest
+    //{
+    //    public static bool IsEven(this int num)
+    //    {
+    //        return num % 2 == 0;
+    //    }
+    //}
+    //class Program
+    //{
+    //    public static void Main()
+    //    {
+    //        int num = -1;
+    //        while (num == -1)
+    //        {
+    //            try
+    //            {
+    //                num = int.Parse(Console.ReadLine());
+    //                break;
+    //            }
+    //            catch
+    //            {
+    //                num = -1;
+    //                Console.WriteLine("다시 입력하세요.");
+    //            }
+    //        }
+    //        Console.Write($"{num}은/는 ");
+
+    //        if (num.IsEven())
+    //            Console.WriteLine("짝수 입니다.");
+    //        else
+    //            Console.WriteLine("홀수 입니다.");
+    //    }
+    //}
+
+    #endregion
+
+    #region 2. 매개변수 ref
+    // public static void Swap<일반화>(left, right) 함수
+    // 어떤 자료형이 들어오더라도 두 매개변수의 원본을 교체하는 함수
+
+    //class RefProperty
+    //{
+    //    public struct Position
+    //    {
+    //        public int x;
+    //        public int y;
+    //        public Position(int x, int y)
+    //        {
+    //            this.x = x;
+    //            this.y = y;
+    //        }
+    //    }
+
+    //    public static void Swap<T>(ref T left, ref T right)
+    //    {
+    //        T temp = left;
+    //        left = right;
+    //        right = temp;
+    //    }
+
+    //    static void Main(string[] argc)
+    //    {
+    //        int a = 5;
+    //        int b = 3;
+
+    //        float c = 5.5f;
+    //        float d = 8.8f;
+
+    //        Position e = new Position(1, 2);
+    //        Position f = new Position(5, 6);
+
+    //        Console.WriteLine("before Swap");
+    //        Console.WriteLine($"a = {a}  | b = {b}              (int)");
+    //        Console.WriteLine($"c = {c}  | d = {d}          (float)");
+    //        Console.WriteLine($"e = ({e.x},{e.y})  | f = ({f.x},{f.y})      (struct)");
+
+    //        Swap<int>(ref a, ref b);
+    //        Swap<float>(ref c, ref d);
+    //        Swap<Position>(ref e, ref f);
+
+    //        Console.WriteLine("\n---------------------------------------\n");
+    //        Console.WriteLine("after Swap");
+    //        Console.WriteLine($"a = {a}  | b = {b}              (int)");
+    //        Console.WriteLine($"c = {c}  | d = {d}          (float)");
+    //        Console.WriteLine($"e = ({e.x},{e.y})  | f = ({f.x},{f.y})      (struct)");
+
+    //    }
+    //}
+
+    #endregion
+
+    #region 3. Property 속성
+    // public class Player 를 만들고
+    // 체력이라고 하는 변수를 외부에서 읽을 수는 있지만, 변경할 수 없도록
+    // 체력관련 프로퍼티(Hp) 구현
+
+    //public class Player
+    //{
+    //    public const int MAX_HP = 100;
+
+    //    private int ownHp;
+    //    public int OwnHp
+    //    {
+    //        get { return ownHp; }
+    //        private set
+    //        {
+    //            if (value <= MAX_HP && value >= 0)
+    //            {
+    //                ownHp = value;
+    //            }
+    //            else
+    //            {
+    //                ownHp = value < 0 ? 0 : 100;
+    //            }
+    //        }
+    //    }
+    //    public Player()
+    //    {
+    //        ownHp = MAX_HP;
+    //    }
+    //}
+    //public class Program
+    //{
+    //    static void Main(string[] argc)
+    //    {
+    //        Player player = new Player();
+    //        // player.OwnHp = 100;              // 수정 불가
+    //        Console.WriteLine(player.OwnHp);    // 읽기 가능
+    //    }
+    //}
+
+    #endregion
+
+    #region A++. Property 이벤트
+    // Player player = new Player();
+    // UI ui = new UI();
+    // 
+    // player.Hp = 20;
+    // player.Hp = 30;
+    // player.Hp = 50;
+    //                  // ui의 체력 수치도 같이 갱신되도록 짜보자
+    public class Player
+    {
+        public const int MAX_HP = 100;
+
+        private int ownHp;
+        public int OwnHp
+        {
+            get { return ownHp; }
+            private set
+            {
+                if (value <= MAX_HP && value >= 0)
+                {
+                    ownHp = value;
+                }
+                else
+                {
+                    ownHp = value < 0 ? 0 : 100;
+                }
+                if (OnDealWithHp != null)   // 이벤트 실행
+                    OnDealWithHp(ownHp);
+
+            }
+        }
+
+        public event Action<int> OnDealWithHp;
+
+        public Player()
+        {
+            ownHp = MAX_HP;
+        }
+
+        public void Healing(int value)
+        {
+            OwnHp += value;
+        }
+        public void TakeDamage(int value)
+        {
+            OwnHp -= value;
+        }
+    }
+
+    public class UI
+    {
+        private StringBuilder hpString;
+        public StringBuilder HpString { get { return hpString; } }      
+
+        public UI()
+        {
+            hpString = new StringBuilder();
+            for (int i=0; i<10; i++)
+            {
+                hpString.Append('■');
+            }
+        }
+        public void PlayerHpUpdate(int hp)
+        {
+            hpString.Clear();
+            int value = hp / 10;
+            for(int i =0; i<10; i++)
+            {
+                if (i <= value-1)
+                {
+                    hpString.Append('■');
+                }
+                else
+                {
+                    hpString.Append('□');
+                }
+            }
+        }
+    }
+    public class GameSystem
+    {
+        private UI ui;
+        private Player player;
+        private bool isRunning;
+
+        public event Action OnRendering;
+        public GameSystem()
+        {
+            player = new Player();
+            ui = new UI();
+
+            player.OnDealWithHp += ui.PlayerHpUpdate;
+            isRunning = true;
+            OnRendering += OptionRendering;
+            OnRendering += UIRendering; 
+        }
+        public void OptionRendering()
+        {
+            Console.WriteLine("<  1:HP회복  |  2:HP소모  >");
+        }
+        public void UIRendering()
+        {
+            Console.Write("HP : ");
+            for(int i=0; i<ui.HpString.Length; i++)
+            {
+                if (ui.HpString[i] == '■')
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+                Console.Write(ui.HpString[i]);
+                Console.ResetColor();
+            }
+            Console.WriteLine();
+            Console.Write("현재 체력 : ");
+            Console.WriteLine(player.OwnHp);
+        }
+        public void InputKey()
+        {
+            ConsoleKey inputKey = Console.ReadKey().Key;
+            switch(inputKey)
+            {
+                case ConsoleKey.D1:
+                    player.Healing(10);
+                    break;
+                case ConsoleKey.D2:
+                    player.TakeDamage(10);
+                    break;
+                default:
+                    isRunning = false;
+                    break;
+            }
+        }
+
+        public void LoopGame()
+        {
+            while(isRunning)
+            {
+                OnRendering();
+                InputKey();
+                Console.Clear();
+            }
+        }
+    }
+    class Program
+    {
+        static void Main(string[] argc)
+        {
+            GameSystem gameSystem = new GameSystem();
+            gameSystem.LoopGame();
+        }
+    }
+
+
+
+    #endregion
+
     #endregion
 }

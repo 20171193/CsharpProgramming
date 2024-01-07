@@ -134,6 +134,7 @@ namespace _03._OOP
             base.Execute();     // 부모클래스(base)의 Execute 함수 실행
                                 // 꼭 부모클래스의 기능을 실행할 필요는 없음.
             Console.WriteLine("화염구 발사");
+
         }
     }
     class Dash : Skill

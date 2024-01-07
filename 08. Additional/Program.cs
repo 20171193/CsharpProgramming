@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text;
+using static _08._Additional.Partial;
+
 namespace _08._Additional
 {
     #region 1. C# 제공 메서드
@@ -278,6 +280,7 @@ namespace _08._Additional
             // 함수의 종료전까지 out 매개변수에 값이 할당 안되는 경우 오류
         }
 
+
         void Main5()
         {
             int quotient;
@@ -366,7 +369,6 @@ namespace _08._Additional
                 }
             }
         }
-
         void Main2()
         {
             Equipment equipment = new Equipment();
@@ -474,8 +476,6 @@ namespace _08._Additional
         }
     }
     #endregion
-
-
 
     #region 실습
 
@@ -669,12 +669,12 @@ namespace _08._Additional
     public class UI
     {
         private StringBuilder hpString;
-        public StringBuilder HpString { get { return hpString; } }      
+        public StringBuilder HpString { get { return hpString; } }
 
         public UI()
         {
             hpString = new StringBuilder();
-            for (int i=0; i<10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 hpString.Append('■');
             }
@@ -683,9 +683,9 @@ namespace _08._Additional
         {
             hpString.Clear();
             int value = hp / 10;
-            for(int i =0; i<10; i++)
+            for (int i = 0; i < 10; i++)
             {
-                if (i <= value-1)
+                if (i <= value - 1)
                 {
                     hpString.Append('■');
                 }
@@ -711,7 +711,7 @@ namespace _08._Additional
             player.OnDealWithHp += ui.PlayerHpUpdate;
             isRunning = true;
             OnRendering += OptionRendering;
-            OnRendering += UIRendering; 
+            OnRendering += UIRendering;
         }
         public void OptionRendering()
         {
@@ -720,7 +720,7 @@ namespace _08._Additional
         public void UIRendering()
         {
             Console.Write("HP : ");
-            for(int i=0; i<ui.HpString.Length; i++)
+            for (int i = 0; i < ui.HpString.Length; i++)
             {
                 if (ui.HpString[i] == '■')
                 {
@@ -736,7 +736,7 @@ namespace _08._Additional
         public void InputKey()
         {
             ConsoleKey inputKey = Console.ReadKey().Key;
-            switch(inputKey)
+            switch (inputKey)
             {
                 case ConsoleKey.D1:
                     player.Healing(10);
@@ -752,7 +752,7 @@ namespace _08._Additional
 
         public void LoopGame()
         {
-            while(isRunning)
+            while (isRunning)
             {
                 OnRendering();
                 InputKey();
@@ -774,4 +774,5 @@ namespace _08._Additional
     #endregion
 
     #endregion
+
 }

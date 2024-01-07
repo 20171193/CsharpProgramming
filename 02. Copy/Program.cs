@@ -41,6 +41,59 @@ namespace _02._Copy
     /// <summary>
     /// 깊은 복사 예시 클래스
     /// </summary>
+    /// 
+    // 오버로드 오버라이드
+    // 오버로딩
+    // 
+    public class over
+    {
+
+        // 함수에서 덮어쓰는 행위 오버로딩
+        int func1(int a, int b) { return a + b; }
+        double func1(double a, double b) { return a + b; }
+    
+        // 부모 클래스의 함수를 덮어쓰는 행위 오버라이딩
+    }
+
+    // oop 
+    
+    // 상속
+    
+    // 추상화
+    
+    // 캡슐화
+
+    // 가상
+
+    public class ride
+    {
+        public virtual void aaa() { }
+    }
+    public class rr : ride
+    {
+        public override void aaa()
+        {
+            base.aaa();
+        }
+    }
+
+    public abstract class A
+    {
+        public abstract void aaa();
+    }
+    public class B:A
+    {
+        public override void aaa()
+        {
+            
+        }
+    }
+
+
+    // 추상 : abstract 자식에서 무조건 형체를 만들어주어야함. -> 정의를 포함하면 안됨. 선언만 가능.
+    // 가상 : virtual 자식에서 덮어쓰는 느낌. -> 정의를 포함해도 되지만, 자식에서 재정의 할 경우 덮어쓰여짐.
+
+
     class DeepCopyClass
     {
         public int number1;

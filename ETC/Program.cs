@@ -9,329 +9,428 @@ using System.Reflection.Metadata.Ecma335;
 using System.Collections.Specialized;
 using System.Text;
 using System.Runtime.Intrinsics.Arm;
+using System.ComponentModel;
+using System.Reflection.Metadata;
 
 namespace ETC
 {
-    //  1.플레이어가 코인을 얻을때 발생하는 이벤트를 구현하자
-    //  2.이벤트에 반응하는 UI, SFX, VFX 객체를 구현하자
-    //  3.플레이어가 코인을 얻을때 발생하는 이벤트에 반응하도록 UI, SFX, VFX를 참조하자
-    //  4.플레이어가 코인을 얻으면 UI, SFX, VFX가 반응하는지 확인하자
+    //    ⦁	상점 게임 만들기
+    //⦁	상점에서는 다음 작업들이 가능하다.
+    //⦁	아이템 구매
+    //⦁	아이템 판매
+    //⦁	아이템 확인
+    //⦁	아이템은 기본적으로 이름, 설명, 가격을 가지고 있으며,
+    //무기는 공격력, 방어구는 방어력, 장신구는 체력을 상승시키는 수치를 가진다.
+    //⦁	아이템 구매 메뉴 선택시 상점이 소유하고 있는 아이템들 목록이 제공되고,
+    //구매하고자 하는 아이템을 선택시 구매를 진행한다. 단, 돈이 부족하다면 구매는 진행되지 않는다.
+    //구매가 완료되면 소유한 아이템에 구매한 아이템이 추가되며, 아이템에 의해 플레이어 능력이 상승한다.
+    //⦁	아이템 판매 메뉴 선택시 플레이어가 소유하고 있는 아이템들 목록이 제공되고,
+    //판매하고자 하는 아이템을 선택시 판매를 진행한다. 단, 소유한 아이템이 없다면 진행되지 않는다.
+    //판매가 완료되면 소유한 아이템에 판매한 아이템이 제거되며, 아이템에 의해 플레이어 능력이 하락한다.
+    //⦁	아이템 확인 메뉴 선택시 플레이어가 소유하고 있는 아이템들 목록이 제공되고,
+    //아이템들에 의해 상승한 플레이어 최종 능력치를 보여준다.
+    //플레이어는 최대 6개의 아이템을 소유할 수 있으며 빈칸은 보여주지 않는다.
 
-    //  A++) 방어구의 내구도 시스템을 구현해보자
-    //   플레이어가 방어구를 착용하고, 플레이어 피격시마다 내구도가 1감소하도록 구현.
-    //   내구도가 0이 되면 방어구가 해제되도록 구현하자.
-
-    // < 1~4, A++ >
-    public interface IEquipmentable
+    public class InputManager
     {
-        public void Equip(Equipment equipment);
-    }
-    public class Player : IEquipmentable
-    {
-        private int ownCoin;    // 코인
-        public int OwnCoin { get { return ownCoin; } }
-
-        private int ownHp;  // 체력
-        public int OwnHp { get { return ownHp; } }  
-
-        public event Action OnGetCoin;      // 코인획득 이벤트
-        public event Action<IEquipmentable> OnEquip;    // 방어구 장착 이벤트
-        public event Action OnTakeDamage;   // 피격 시 이벤트
-
-        public Armour myAmour;
-
-        public Player()
+        private static InputManager staticInputMGR;
+        public static InputManager Instance()
         {
-            ownCoin = 0;
-            ownHp = 100;
-        }
-
-        public void GetCoin()
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"코인 획득!");
-            Console.ResetColor();
-            ownCoin += 50;
-            if(OnGetCoin != null)
-                OnGetCoin();
-        }
-
-        #region A++
-        // 이벤트 구현
-        public void Equip(Equipment equipment)
-        {
-            Console.WriteLine("플레이어가 장비를 장착합니다.");
-            myAmour = (Armour)equipment;
-            if (OnEquip != null)
+            if (staticInputMGR == null)
             {
-                OnEquip(this);
+                staticInputMGR = new InputManager();
             }
+            return staticInputMGR;
+        }
+        public int UserInputKey()
+        {
+            return ConsoleKeyToInt(Console.ReadKey().Key);
         }
 
-        public void UnEquip(Equipment equipment)
+        private int ConsoleKeyToInt(ConsoleKey inputKey)
         {
-            // 방어구 해제 구현
-            myAmour = null;
-        }
-
-        public void TakeDamage(int damage)
-        {
-            // 이벤트 발생 구현
-            if(myAmour == null)
+            // 1~3을 제외한 키는 0으로 간주.
+            switch (inputKey)
             {
-                Console.WriteLine($"플레이어가 {damage}의 피해를 입었습니다.");
-                if (ownHp - damage > 0)
-                {
-                    ownHp -= damage;
-                }
-                else
-                {
-                    // 추후 사망처리
-                }
-            }
-            else
-            {
-                // Call 방식
-                myAmour.OnDamage(damage);
-            }
-        }
-
-        #endregion
-    }
-    #region A++
-    public abstract class Equipment
-    {
-        protected IEquipmentable owner;
-        protected int durability;
-        public int Durability { get { return durability; } }
-        
-        public abstract void Equip(IEquipmentable owner); // 방어구 착용시 반응 구현
-        public abstract void OnDamage(int value); // 피격시 행동 구현
-    }
-
-    public class Armour : Equipment
-    {
-        public Armour(IEquipmentable owner)
-        {
-            this.owner = owner;
-            durability = 5;
-            if(owner is Player)
-            {
-                Player player = (Player)owner;
-                player.OnEquip -= Equip;
-                player.OnEquip += Equip;
-            }
-        }
-
-        public override void Equip(IEquipmentable owner)
-        {
-            Player player = owner as Player;
-            player.myAmour = this;
-            Console.WriteLine($"갑옷을 장착합니다. 내구도 : {durability}");
-        }
-
-        public override void OnDamage(int value)
-        {
-            if(durability - value < 1)
-            {
-                Console.WriteLine($"갑옷이 {value}의 피해를 입어 파괴됩니다.");
-                durability = 0;
-                if (owner is Player)
-                {
-                    Player player = (Player)owner;
-                    player.OnEquip -= Equip;
-                    player.UnEquip(this);
-                }
-            }
-            else
-            {
-                Console.WriteLine($"갑옷이 {value}의 피해를 흡수합니다.");
-                durability -= value;
+                case ConsoleKey.D1:
+                    return 1;
+                case ConsoleKey.D2:
+                    return 2;
+                case ConsoleKey.D3:
+                    return 3;
+                default:
+                    return 0;
             }
         }
     }
 
-    #endregion
-
-    public interface ICoinEventReferecable
+    public enum ItemType 
     {
-        public void GetCoinRefer();
+        LONG_SWORD = 0,      // 롱소드          : 공격력
+        CLOTH_ARMOR,         // 천갑옷          : 방어력
+        TEAR_OF_THE_GODDES   // 여신의 눈물     : 체력
+    }
+    public interface IPurchaseable
+    {
+        public void Perchase();
+    }
+    public interface ISaleable
+    {
+        public void Sale();
     }
 
-    class GameEnvironment
+    public class Item
     {
-        protected Player player;
-    }
+        protected ItemType thisType;    // enum 아이템 타입
+        public ItemType ThisType { get { return thisType; } }
 
-    class UI : GameEnvironment, ICoinEventReferecable
-    {
-        public UI(Player player)
+        protected string name;  // 이름
+        public string Name { get { return name; } }
+
+        protected string description;   // 설명
+        public string Description { get { return description; } }
+
+        protected float price;  // 가격
+        public float Price { get { return price; } }
+
+        public virtual void PrintItemInfo()
         {
-            this.player = player;
-            player.OnGetCoin -= GetCoinRefer;   // 예외처리 (이미 할당되어있다면 해제 후 다시 할당)
-            player.OnGetCoin += GetCoinRefer;
+            Console.WriteLine($"{(int)thisType+1}. {name}");
+            Console.WriteLine($"\t가격 : {string.Format("{0:#,0}", price)}G");
+            Console.WriteLine($"\t설명 : {description}");
+        }
+    }
+    public class LongSword : Item
+    {
+        private float atk;  // 공격력
+        public float Atk { get { return atk; } private set { atk = value; } }
+
+        public LongSword()
+        {
+            thisType = ItemType.LONG_SWORD;
+            name = "롱소드";
+            description = "기본적인 검이다.";
+            price = 450f;
+            Atk = 15f;
+        }
+        public override void PrintItemInfo()
+        {
+            base.PrintItemInfo();
+            Console.WriteLine($"\t공격력 상승 : {atk}");
+        }
+    }
+    public class ClothArmor : Item
+    {
+        private float amr;      // 방어력
+        public float Amr { get { return amr; } private set { amr = value; } }
+
+        public ClothArmor()
+        {
+            thisType = ItemType.CLOTH_ARMOR;
+            name = "천갑옷";
+            description = "얇은 갑옷이다.";
+            price = 450f;
+            Amr = 10f;
+        }
+        public override void PrintItemInfo()
+        {
+            base.PrintItemInfo();
+            Console.WriteLine($"\t방어력 상승 : {amr}");
+        }
+    }
+    public class TearOfTheGoddes : Item
+    {
+        private float extraHp;      // 추가 hp
+        public float ExtraHp { get { return extraHp; } private set { extraHp = value; } }
+
+        public TearOfTheGoddes()
+        {
+            thisType = ItemType.TEAR_OF_THE_GODDES;
+            name = "여신의 눈물";
+            description = "희미하게 푸른빛을 품고 있는 보석이다.";
+            price = 800f;
+            ExtraHp = 10f;
+        }
+        public override void PrintItemInfo()
+        {
+            base.PrintItemInfo();
+            Console.WriteLine($"\t체력 상승 : {extraHp}");
+        }
+    }
+
+    public class Player
+    {
+        private float ownGold;  // 소지한 골드
+        public float OwnGold { get { return ownGold; } set { ownGold = value; } }
+
+        private float hp;   // 체력
+        public float Hp { get { return hp; } private set { hp = value; } }
+
+        private float atk;   // 공격력
+        public float Atk { get { return atk; } private set { atk = value; } }
+
+        private float amr;   // 방어력
+        public float Amr { get { return amr; } private set { amr = value; } }
+
+
+        private Item[] itemSlot;    // 아이템 슬롯
+        public Item[] ItemSlot { get { return itemSlot; } }
+
+        public Player(Game game)
+        {
+            itemSlot = new Item[6];
+            OwnGold = 10000f;
+            Hp = 100f;
+            Atk = 15f;
+            Amr = 30f;
+            game.OnPlayerMenuAction += SaleItem;
         }
 
-        public void UIRendering()
+        public void PrintPlayerInfo()
         {
-            Console.WriteLine("******** 플레이어 정보 ********");
-            Console.Write(" $ : ");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(player.OwnCoin);
-            Console.ResetColor();
-            Console.Write(" | HP : ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(player.OwnHp);
-            Console.ResetColor();
-            if(player.myAmour != null)
-            {
-                Console.Write(" | 갑옷 : ");
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write(player.myAmour.Durability);
-                Console.ResetColor();
-            }
+            Console.WriteLine($"플레이어   골드 보유량 : {string.Format("{0:#,0}",OwnGold)}G");
+            Console.WriteLine($"플레이어 공격력 상승량 : {Atk}");
+            Console.WriteLine($"플레이어 방어력 상승량 : {Amr}");
+            Console.WriteLine($"플레이어   체력 상승량 : {Hp}");
             Console.WriteLine();
         }
 
-        public void GetCoinRefer()
+        public void PrintItemSlot()
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("UI 출력");
-            Console.ResetColor();
+            for(int i =0; i<itemSlot.Length; i++)
+            {
+                if (itemSlot[i] == null) return;
+                Item item = itemSlot[i];
+
+                Console.WriteLine($"{i + 1}. {item.Name}");
+                Console.WriteLine($"\t가격 : {string.Format("{0:#,0}", item.Price)}G");
+                Console.WriteLine($"\t설명 : {item.Description}");
+                if (item is LongSword)
+                {
+                    LongSword temp = (LongSword)item;
+                    Console.WriteLine($"\t공격력 상승 : {temp.Atk}");
+                }
+                else if (item is ClothArmor)
+                {
+                    ClothArmor temp = (ClothArmor)item;
+                    Console.WriteLine($"\t방어력 상승 : {temp.Amr}");
+                }
+                else if (item is TearOfTheGoddes)
+                {
+                    TearOfTheGoddes temp = (TearOfTheGoddes)item;
+                    Console.WriteLine($"\t체력 상승 : {temp.ExtraHp}");
+                }
+                Console.WriteLine();
+            }
+        }
+        public void RegistItemSlot(Item item)
+        {
+            for (int i = 0; i < itemSlot.Length; i++)
+            {
+                if (itemSlot[i] == null)
+                {
+                    itemSlot[i] = item;
+                    return;
+                }
+            }
+            Console.WriteLine("빈 슬롯이 없습니다.");
+        }
+        public void SaleItem(int itemIndex)
+        {
+            for (int i = 0; i < itemSlot.Length; i++)
+            {
+                if (itemSlot[i] != null)
+                {
+                    if (itemSlot[i].ThisType == (ItemType)(itemIndex-1))
+                    {
+                        Console.WriteLine($"{itemSlot[i].Name}를 판매합니다.");
+                        switch (itemSlot[i].ThisType)
+                        {
+                            case ItemType.LONG_SWORD:
+                                LongSword ls = (LongSword)itemSlot[i];
+                                Atk -= ls.Atk;
+                                Console.WriteLine($"플레이어의 공격력이 {ls.Atk}감소하여 {Atk}이 됩니다.");
+                                break;
+                            case ItemType.CLOTH_ARMOR:
+                                ClothArmor ca = (ClothArmor)itemSlot[i];
+                                Amr -= ca.Amr;
+                                Console.WriteLine($"플레이어의 방어력이 {ca.Amr}감소하여 {Amr}이 됩니다.");
+                                break;
+                            case ItemType.TEAR_OF_THE_GODDES:
+                                TearOfTheGoddes tg = (TearOfTheGoddes)itemSlot[i];
+                                Hp -= tg.ExtraHp;
+                                Console.WriteLine($"플레이어의 방어력이 {tg.ExtraHp}감소하여 {Hp}이 됩니다.");
+                                break;
+                        }
+                        ownGold += itemSlot[i].Price;
+                        Console.WriteLine($"보유한 골드가 {string.Format("{0:#,0}", itemSlot[i].Price)}G 상승하여 {string.Format("{0:#,0}", ownGold)}G가 됩니다.");
+                        itemSlot[i] = null;
+                        return;
+                    }
+                }
+            }
+
+            Console.WriteLine("슬롯에 없는 아이템입니다.");
+        }
+        public void UpdateItemAbility(Item item)
+        {
+            OwnGold -= item.Price;
+            if (item is LongSword)
+            {
+                LongSword temp = (LongSword)item;
+                Atk += temp.Atk;
+            }
+            else if (item is ClothArmor)
+            {
+                ClothArmor temp = (ClothArmor)item;
+                Amr += temp.Amr;
+            }
+            else if (item is TearOfTheGoddes)
+            {
+                TearOfTheGoddes temp = (TearOfTheGoddes)item;
+                Hp += temp.ExtraHp;
+            }
+            else return;
         }
     }
-    class SFX : GameEnvironment, ICoinEventReferecable
+
+    public enum ShopMenuType
     {
-        public SFX(Player player)
-        {
-            this.player = player;
-            player.OnGetCoin -= GetCoinRefer;
-            player.OnGetCoin += GetCoinRefer;
-        }
-        public void GetCoinRefer()
-        {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("사운드 출력");
-            Console.ResetColor();
-        }
+        PERCHASE = 1,
+        SALE,
+        ITEMINFO
     }
-    class VFX : GameEnvironment, ICoinEventReferecable
+    public class Shop
     {
-        public VFX(Player player)
+        private Item[] itemList;
+        public Shop(Game game)
         {
-            this.player = player;
-            player.OnGetCoin -= GetCoinRefer;
-            player.OnGetCoin += GetCoinRefer;
+            itemList = new Item[3];
+            itemList[(int)ItemType.LONG_SWORD] = new LongSword();
+            itemList[(int)ItemType.CLOTH_ARMOR] = new ClothArmor();
+            itemList[(int)ItemType.TEAR_OF_THE_GODDES] = new TearOfTheGoddes();
+
+            game.OnShopMenuAction += PerchaseItem;
         }
 
-        public void GetCoinRefer()
+        public void PrintItemList()
         {
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("이펙트효과 출력");
-            Console.ResetColor();
+            foreach (Item item in itemList)
+            {
+                item.PrintItemInfo();
+                Console.WriteLine();
+            }
+            Console.Write("아이템 번호를 입력하세요 (취소 0) :");
+        }
+        public void PerchaseItem(int itemIndex, Player player)
+        {
+            if (player.OwnGold >= itemList[itemIndex - 1].Price)
+            {
+                player.RegistItemSlot(itemList[itemIndex - 1]);
+                player.UpdateItemAbility(itemList[itemIndex - 1]);
+            }
+            else
+            {
+                Console.WriteLine("소지한 돈이 부족합니다.");
+            }
         }
     }
 
-    class Game
+    public class Game
     {
         private Player player;
-        private UI ui;
-        private SFX sfx;
-        private VFX vfx;
+        private Shop shop;
 
-        public bool loopGame;
+        private bool loopGame;
+        public Action<int,Player> OnShopMenuAction;
+        public Action<int> OnPlayerMenuAction;
 
         public Game()
         {
-            player = new Player();
-            ui = new UI(player);
-            sfx = new SFX(player);
-            vfx = new VFX(player);
+            player = new Player(this);
+            shop = new Shop(this);
             loopGame = true;
         }
+        public bool RenderChooseMode()
+        {
+            Console.WriteLine("\n=========== 상점 메뉴 ============");
+            Console.WriteLine("1. 아이템 구매");
+            Console.WriteLine("2. 아이템 판매");
+            Console.WriteLine("3. 아이템 확인");
+            Console.Write("메뉴를 선택하세요 :");
+            int inputKey = InputManager.Instance().UserInputKey();
+            switch(inputKey)
+            {
+                case 1:
+                    RenderPerchaseMode();
+                    return true;
+                case 2:
+                    RenderSaleMode();
+                    return true;
+                case 3:
+                    RenderItemInfoMode();
+                    return true;
+                default:
+                    return false;
+            }
+        }
 
-        public void Render()
+        public void RenderPerchaseMode()
         {
-            ui.UIRendering();
-        }
-        public ConsoleKey UserInput()
-        {
-            Console.Write("1:코인 | 2:피격 | 3:갑옷장착 | ESC:종료 ");
-            ConsoleKey inputKey = Console.ReadKey().Key;
+            Console.WriteLine("\n============ 아이템 구매 ============\n");
+            shop.PrintItemList();
+            int inputKey = InputManager.Instance().UserInputKey();
+            if (inputKey == 0) return;
+
             Console.WriteLine();
+
+            if (OnShopMenuAction != null)
+                OnShopMenuAction(inputKey, player);
+
             Console.WriteLine();
-            return inputKey;
         }
-        public void GameLoop()
+        public void RenderSaleMode()
         {
-            ConsoleKey inputKey;
-            while(loopGame) 
-            { 
-                Render();
-                inputKey = UserInput();
-                switch(inputKey)
-                {
-                    case ConsoleKey.D1:
-                        player.GetCoin();
-                        break;
-                    case ConsoleKey.D2:
-                        player.TakeDamage(1);
-                        break;
-                    case ConsoleKey.D3:
-                        if(player.myAmour == null)
-                            player.Equip(new Armour(player));
-                        else
-                            Console.WriteLine("이미 존재하는 장비입니다.");
-                        break;              
-                    case ConsoleKey.Escape:
-                        loopGame = false;
-                        break;
-                    default:
-                        Console.WriteLine("잘못된 입력입니다.");
-                        break;
-                }
-                if(inputKey != ConsoleKey.Escape)
-                    Thread.Sleep(1200);
-                Console.Clear();
+            Console.WriteLine("\n============ 아이템 판매 ============");
+            shop.PrintItemList();
+            int inputKey = InputManager.Instance().UserInputKey();
+            if (inputKey == 0) return;
+
+            Console.WriteLine();
+            if (OnPlayerMenuAction != null)
+                OnPlayerMenuAction(inputKey);
+
+            Console.WriteLine();
+        }
+        public void RenderItemInfoMode()
+        {
+            Console.WriteLine("\n============ 아이템 확인 ============\n");
+
+            player.PrintPlayerInfo();
+            player.PrintItemSlot();
+
+            Console.WriteLine();
+        }
+
+        public void LoopGame()
+        {
+            Console.WriteLine("*****************************************");
+            Console.WriteLine("************** 아이템 상점 **************");
+            Console.WriteLine("*****************************************\n");
+
+
+            while (loopGame)
+            {
+                loopGame = RenderChooseMode();
             }
         }
     }
-
-    class Program
+    public class Program
     {
         static void Main(string[] argc)
         {
             Game game = new Game();
-            game.GameLoop();
+            game.LoopGame();
         }
     }
-
-
-    // < 5 >
-    //  5.두 수를 입력받고 숫자1 / 숫자2 의 결과를 출력하도록 하자.단, 숫자2가 0인 경우 예외처리를 통해 0으로 나눌 수 없다고 출력하도록 하자.
-    //class TestException
-    //{
-    //    static void Main(string[] argc)
-    //    {
-    //        try
-    //        {
-    //            Console.Write("1번 숫자를 입력하시오 : ");
-    //            int num1 = int.Parse(Console.ReadLine());
-    //            Console.Write("2번 숫자를 입력하시오 : ");
-    //            int num2 = int.Parse(Console.ReadLine());
-
-    //            Console.WriteLine($"{num1} / {num2} = {num1 / num2}");
-    //        }
-    //        catch(DivideByZeroException ex)
-    //        {
-    //            Console.WriteLine(ex.Message);
-    //            Console.WriteLine("0으로 나눌 수 없습니다.");
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            Console.WriteLine(ex.Message);
-    //            Console.WriteLine("입력이 잘못되었습니다.");
-    //        }
-    //    }
-    //}
 }

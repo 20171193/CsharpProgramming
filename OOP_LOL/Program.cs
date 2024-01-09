@@ -1,4 +1,0 @@
-﻿namespace OOP_LOL
-{
-
-}

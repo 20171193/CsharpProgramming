@@ -105,9 +105,54 @@ namespace _05._Array_and_Generic
             #endregion
 
             #region 일반화 자료형 제약
-            // where 구문을 사용해 
-            
-            #endregion
+            // <일반화 자료형 제약>
+            // 일반화 자료형을 선언할 때 제약조건을 선언하여, 사용 당시 쓸 수 있는 자료형을 제한
+            class StructT<T> where T : struct { }           // T는 구조체만 사용 가능
+            class ClassT<T> where T : class { }             // T는 클래스만 사용 가능
+            class NewT<T> where T : new() { }               // T는 매개변수 없는 생성자가 있는 자료형만 사용 가능
+
+            class ParentT<T> where T : Parent { }           // T는 Parent 파생클래스만 사용 가능
+            class InterfaceT<T> where T : IComparable { }   // T는 인터페이스를 포함한 자료형만 사용 가능
+
+            class Parent { }
+            class Child : Parent { }
+
+            void Main2()
+            {
+                StructT<int> structT = new StructT<int>();          // int는 구조체이므로 struct 제약조건이 있는 일반화 자료형에 사용 가능
+                                                                    // ClassT<int> classT = new ClassT<int>();          // error : int는 구조체이므로 class 제약조건이 있는 일반화 자료형에 사용 불가
+                NewT<int> newT = new NewT<int>();                   // int는 new int() 생성자가 있으므로 사용 가능
+
+                ParentT<Parent> parentT = new ParentT<Parent>();    // Parent는 Parent 파생클래스이므로 사용 가능
+                ParentT<Child> childT = new ParentT<Child>();       // Child는 Parent 파생클래스이므로 사용 가능
+                InterfaceT<int> interT = new InterfaceT<int>();     // int는 IComparable 인터페이스를 포함하므로 사용 가능
+            }
+
+
+            // <일반화 제약 용도>
+            // 일반화 자료형에 제약조건이 있다면 포함가능한 자료형의 기능을 사용할 수 있음
+            public class BaseClass
+            {
+                public void Start()
+                {
+                    Console.WriteLine("Start");
+                }
+            }
+
+            public void Main3<T>(T param) where T : BaseClass
+            {
+                param.Start();      // 일반화 자료형의 제약조건이 BaseClass 클래스이므로, BaseClass의 기능을 사용 가능 
+            }
+
+
+            static void Main(string[] args)
+            {
+
+            }
         }
+
+
+        #endregion
     }
+}
 }

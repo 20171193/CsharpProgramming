@@ -1,5 +1,0 @@
-C:\Users\SHIMNALDO\source\repos\CsharpProgramming\00.etc\obj\Debug\net6.0\00. etc.csproj.AssemblyReference.cache
-C:\Users\SHIMNALDO\source\repos\CsharpProgramming\00.etc\obj\Debug\net6.0\00. etc.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\SHIMNALDO\source\repos\CsharpProgramming\00.etc\obj\Debug\net6.0\00. etc.AssemblyInfoInputs.cache
-C:\Users\SHIMNALDO\source\repos\CsharpProgramming\00.etc\obj\Debug\net6.0\00. etc.AssemblyInfo.cs
-C:\Users\SHIMNALDO\source\repos\CsharpProgramming\00.etc\obj\Debug\net6.0\00. etc.csproj.CoreCompileInputs.cache

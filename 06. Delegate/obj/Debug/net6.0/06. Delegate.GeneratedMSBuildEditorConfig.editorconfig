@@ -8,4 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = _06._Delegate
-build_property.ProjectDir = C:\Users\SHIMNALDO\source\repos\CsharpProgramming\06. Delegate\
+build_property.ProjectDir = C:\Users\메타플밍5기\source\repos\Github_Shimjaechun\06. Delegate\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

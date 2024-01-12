@@ -8,4 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = _05._Array_and_Generic
-build_property.ProjectDir = C:\Users\SHIMNALDO\source\repos\CsharpProgramming\05. Array and Generic\
+build_property.ProjectDir = C:\Users\메타플밍5기\source\repos\Github_Shimjaechun\05. Array and Generic\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
